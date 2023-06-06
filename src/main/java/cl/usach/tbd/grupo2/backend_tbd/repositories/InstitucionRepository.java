@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface InstitucionRepository {
     public List<InstitucionEntity> findAll();
-    public InstitucionEntity create(InstitucionEntity institucion); 
+    public void create(InstitucionEntity institucion);
     public InstitucionEntity findById(Long id);
-    public InstitucionEntity update(InstitucionEntity institucion);
+    public void update(InstitucionEntity institucion);
     public void delete(Long id);
     
 }
