@@ -1,7 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.services;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.VoluntarioEntity;
-import cl.usach.tbd.grupo2.backend_tbd.repositories.VoluntarioRepository;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.VoluntarioRepositoryImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.List;
 @Service
 public class VoluntarioService {
 
-    private final VoluntarioRepository voluntarioRepository;
+    private final VoluntarioRepositoryImpl voluntarioRepository;
 
-    public VoluntarioService(VoluntarioRepository voluntarioRepository) {
+    public VoluntarioService(VoluntarioRepositoryImpl voluntarioRepository) {
         this.voluntarioRepository = voluntarioRepository;
     }
 
