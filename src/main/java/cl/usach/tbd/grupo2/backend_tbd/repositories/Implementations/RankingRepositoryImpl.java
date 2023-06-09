@@ -17,7 +17,7 @@ public class RankingRepositoryImpl implements RankingRepository {
     @Override
     public List<RankingEntity> findAll() {
         List<RankingEntity> rankings = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM public.emergencia ORDER BY idRanking ASC";
+        String sqlQuery = "SELECT * FROM public.ranking ORDER BY idRanking ASC";
         try (Connection con = sql2o.open()) {
             rankings = con.createQuery(sqlQuery).executeAndFetch(RankingEntity.class);
         } catch (Exception e) {
