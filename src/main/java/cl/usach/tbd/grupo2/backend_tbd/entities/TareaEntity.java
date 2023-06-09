@@ -9,7 +9,7 @@ public class TareaEntity {
     private Long idTarea;
     private String asuntoTarea;
     private Long idEmergencia;
-    private Long idEstadoTarea; //ver si se mantiene como entidad aparte
+    private Boolean estadoTarea; //ver si se mantiene como entidad aparte
 
 
     public Long getIdTarea() {
@@ -36,11 +36,11 @@ public class TareaEntity {
         this.idEmergencia = idEmergencia;
     }
 
-    public Long getIdEstadoTarea() {
-        return idEstadoTarea;
+    public Boolean getEstadoTarea() {
+        return estadoTarea;
     }
 
-    public void setIdEstadoTarea(Long idEstadoTarea) {
-        this.idEstadoTarea = idEstadoTarea;
+    public void setEstadoTarea(Boolean estadoTarea) {
+        this.estadoTarea = estadoTarea;
     }
 }

@@ -25,7 +25,7 @@ public class TareaRepositoryImpl implements TareaRepository {
                     .addParameter("idTarea", tarea.getIdTarea())
                     .addParameter("asuntoTarea", tarea.getAsuntoTarea())
                     .addParameter("idEmergencia", tarea.getIdEmergencia())
-                    .addParameter("idEstadoTarea", tarea.getIdEstadoTarea())
+                    .addParameter("idEstadoTarea", tarea.getEstadoTarea())
                     .executeUpdate();
             con.commit();
         }
@@ -78,7 +78,7 @@ public class TareaRepositoryImpl implements TareaRepository {
                     .addParameter("idTarea", tarea.getIdTarea())
                     .addParameter("asuntoTarea", tarea.getAsuntoTarea())
                     .addParameter("idEmergencia", tarea.getIdEmergencia())
-                    .addParameter("idEstadoTarea", tarea.getIdEstadoTarea())
+                    .addParameter("idEstadoTarea", tarea.getEstadoTarea())
                     .executeUpdate();
             con.commit();
         }
