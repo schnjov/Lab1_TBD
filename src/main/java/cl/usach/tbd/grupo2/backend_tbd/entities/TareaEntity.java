@@ -11,7 +11,6 @@ public class TareaEntity {
     private Long idEmergencia;
     private Boolean estadoTarea; //ver si se mantiene como entidad aparte
 
-
     public Long getIdTarea() {
         return idTarea;
     }
