@@ -3,13 +3,14 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.EmergenciaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 
 import org.sql2o.Connection;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Repository
 public class EmergenciaRepositoryImpl implements EmergenciaRepository {
     @Autowired
     private Sql2o sql2o;
