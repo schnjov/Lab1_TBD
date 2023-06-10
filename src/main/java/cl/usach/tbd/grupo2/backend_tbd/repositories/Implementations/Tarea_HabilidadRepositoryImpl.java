@@ -52,6 +52,29 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
         return tareahabilidad;
     }
 
+    @Override
+    public List<Tarea_HabilidadEntity> findByIdTarea(Long idTarea) {
+        List<Tarea_HabilidadEntity> tarea_habilidades = null;
+        String sqlQuery = "SELECT * FROM tarea_habilidad WHERE id_tarea = :id";
+        try (Connection con = sql2o.open()) {
+            tarea_habilidades = con.createQuery(sqlQuery).addParameter("id", idTarea).executeAndFetch(Tarea_HabilidadEntity.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return tarea_habilidades;
+    }
+
+    @Override
+    public List<Tarea_HabilidadEntity> findByIdHabilidad(Long idHabilidad) {
+        List<Tarea_HabilidadEntity> tarea_habilidades = null;
+        String sqlQuery = "SELECT * FROM tarea_habilidad WHERE id_habilidad = :id";
+        try (Connection con = sql2o.open()) {
+            tarea_habilidades = con.createQuery(sqlQuery).addParameter("id", idHabilidad).executeAndFetch(Tarea_HabilidadEntity.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return tarea_habilidades;
+    }
 
     @Override
     public void update(Tarea_HabilidadEntity tarea_habilidad) {

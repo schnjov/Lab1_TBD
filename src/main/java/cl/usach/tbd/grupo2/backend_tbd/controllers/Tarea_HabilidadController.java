@@ -31,6 +31,26 @@ public class Tarea_HabilidadController {
         }
     }
 
+    @GetMapping("/idTarea/{idTarea}")
+    public ResponseEntity<List<Tarea_HabilidadEntity>> findByIdTarea(@PathVariable Long idTarea) {
+        List<Tarea_HabilidadEntity> tarea_habilidades = tarea_habilidadRepository.findByIdTarea(idTarea);
+        if (tarea_habilidades != null && !tarea_habilidades.isEmpty()) {
+            return new ResponseEntity<>(tarea_habilidades, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/idHabilidad/{idHabilidad}")
+    public ResponseEntity<List<Tarea_HabilidadEntity>> findByIdHabilidad(@PathVariable Long idHabilidad) {
+        List<Tarea_HabilidadEntity> tarea_habilidades = tarea_habilidadRepository.findByIdHabilidad(idHabilidad);
+        if (tarea_habilidades != null && !tarea_habilidades.isEmpty()) {
+            return new ResponseEntity<>(tarea_habilidades, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody Tarea_HabilidadEntity tarea_habilidad) {
         tarea_habilidadRepository.create(tarea_habilidad);

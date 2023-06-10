@@ -54,6 +54,31 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
     }
 
     @Override
+    public List<Eme_HabilidadEntity> findByIdEmergencia(Long idEmergencia) {
+        List<Eme_HabilidadEntity> eme_habilidades = null;
+        String sqlQuery = "SELECT * FROM eme_habilidad WHERE id_emergencia = :id";
+        try (Connection con = sql2o.open()) {
+            eme_habilidades = con.createQuery(sqlQuery).addParameter("id", idEmergencia).executeAndFetch(Eme_HabilidadEntity.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return eme_habilidades;
+    }
+
+    @Override
+    public List<Eme_HabilidadEntity> findByIdHabilidad(Long idHabilidad) {
+        List<Eme_HabilidadEntity> eme_habilidades = null;
+        String sqlQuery = "SELECT * FROM eme_habilidad WHERE id_habilidad = :id";
+        try (Connection con = sql2o.open()) {
+            eme_habilidades = con.createQuery(sqlQuery).addParameter("id", idHabilidad).executeAndFetch(Eme_HabilidadEntity.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return eme_habilidades;
+    }
+
+
+    @Override
     public void update(Eme_HabilidadEntity eme_habilidad) {
         String sqlQuery = "UPDATE eme_habilidad SET idEmergencia = :id_emergencia, idHabilidad = :id_habilidad WHERE idEmeHabilidad = :id_eme_habilidad";
         try (Connection con = sql2o.beginTransaction()){

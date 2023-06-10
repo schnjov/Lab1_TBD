@@ -54,6 +54,30 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
     }
 
     @Override
+    public List<Vol_HabilidadEntity> findByIdVoluntario(Long idVoluntario) {
+        List<Vol_HabilidadEntity> vol_habilidades = null;
+        String sqlQuery = "SELECT * FROM vol_habilidad WHERE id_voluntario = :id";
+        try (Connection con = sql2o.open()) {
+            vol_habilidades = con.createQuery(sqlQuery).addParameter("id", idVoluntario).executeAndFetch(Vol_HabilidadEntity.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return vol_habilidades;
+    }
+
+    @Override
+    public List<Vol_HabilidadEntity> findByIdHabilidad(Long idHabilidad) {
+        List<Vol_HabilidadEntity> vol_habilidades = null;
+        String sqlQuery = "SELECT * FROM vol_habilidad WHERE id_habilidad = :id";
+        try (Connection con = sql2o.open()) {
+            vol_habilidades = con.createQuery(sqlQuery).addParameter("id", idHabilidad).executeAndFetch(Vol_HabilidadEntity.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+        }
+        return vol_habilidades;
+    }
+
+    @Override
     public void update(Vol_HabilidadEntity vol_habilidad) {
         String sqlQuery = "UPDATE vol_habilidad SET idVoluntario = :id_voluntario, idHabilidad = :id_habilidad WHERE idVolHabilidad = :id_vol_habilidad";
         try (Connection con = sql2o.beginTransaction()){

@@ -31,6 +31,26 @@ public class Vol_HabilidadController {
         }
     }
 
+    @GetMapping("/idVoluntario/{idVoluntario}")
+    public ResponseEntity<List<Vol_HabilidadEntity>> findByIdVoluntario(@PathVariable Long idVoluntario) {
+        List<Vol_HabilidadEntity> vol_habilidades = vol_habilidadRepository.findByIdVoluntario(idVoluntario);
+        if (vol_habilidades != null && !vol_habilidades.isEmpty()) {
+            return new ResponseEntity<>(vol_habilidades, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/idHabilidad/{idHabilidad}")
+    public ResponseEntity<List<Vol_HabilidadEntity>> findByIdHabilidad(@PathVariable Long idHabilidad) {
+        List<Vol_HabilidadEntity> vol_habilidades = vol_habilidadRepository.findByIdHabilidad(idHabilidad);
+        if (vol_habilidades != null && !vol_habilidades.isEmpty()) {
+            return new ResponseEntity<>(vol_habilidades, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody Vol_HabilidadEntity vol_habilidad) {
         vol_habilidadRepository.create(vol_habilidad);

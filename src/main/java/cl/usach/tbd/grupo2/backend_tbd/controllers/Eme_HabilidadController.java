@@ -31,6 +31,26 @@ public class Eme_HabilidadController {
         }
     }
 
+    @GetMapping("/idEmergencia/{idEmergencia}")
+    public ResponseEntity<List<Eme_HabilidadEntity>> findByIdEmergencia(@PathVariable Long idEmergencia) {
+        List<Eme_HabilidadEntity> eme_habilidades = eme_habilidadRepository.findByIdEmergencia(idEmergencia);
+        if (eme_habilidades != null && !eme_habilidades.isEmpty()) {
+            return new ResponseEntity<>(eme_habilidades, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/idHabilidad/{idHabilidad}")
+    public ResponseEntity<List<Eme_HabilidadEntity>> findByIdHabilidad(@PathVariable Long idHabilidad) {
+        List<Eme_HabilidadEntity> eme_habilidades = eme_habilidadRepository.findByIdHabilidad(idHabilidad);
+        if (eme_habilidades != null && !eme_habilidades.isEmpty()) {
+            return new ResponseEntity<>(eme_habilidades, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody Eme_HabilidadEntity eme_habilidad) {
         eme_habilidadRepository.create(eme_habilidad);
