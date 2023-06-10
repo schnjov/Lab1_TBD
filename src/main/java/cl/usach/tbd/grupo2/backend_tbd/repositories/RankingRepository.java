@@ -10,6 +10,6 @@ public interface RankingRepository {
     public void create(RankingEntity reanking);
     public void delete(Long id);
     public void update(RankingEntity ranking);
-    public RankingEntity findByIdRanking(Long id);
+    public RankingEntity findById(Long id);
 
 }

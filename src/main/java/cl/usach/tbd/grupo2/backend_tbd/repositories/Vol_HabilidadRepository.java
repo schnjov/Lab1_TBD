@@ -7,7 +7,7 @@ import java.util.List;
 public interface Vol_HabilidadRepository {
     public List<Vol_HabilidadEntity> findAll();
     public void create(Vol_HabilidadEntity vol_habilidad);
-    public Vol_HabilidadEntity findByIdVolHabilidad(Long id);
+    public Vol_HabilidadEntity findById(Long id);
     public void update(Vol_HabilidadEntity vol_habilidad);
     public void delete(Long id);
 }

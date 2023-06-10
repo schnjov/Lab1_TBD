@@ -83,7 +83,7 @@ public class RankingRepositoryImpl implements RankingRepository {
     }
 
     @Override
-    public RankingEntity findByIdRanking(Long id) {
+    public RankingEntity findById(Long id) {
         RankingEntity ranking = null;
         String sqlQuery = "SELECT * FROM ranking WHERE id_ranking = :id";
         try (Connection con = sql2o.open()) {

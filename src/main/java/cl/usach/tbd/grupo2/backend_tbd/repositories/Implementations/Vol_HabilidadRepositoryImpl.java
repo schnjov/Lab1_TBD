@@ -42,7 +42,7 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
     }
 
     @Override
-    public Vol_HabilidadEntity findByIdVolHabilidad(Long id) {
+    public Vol_HabilidadEntity findById(Long id) {
         Vol_HabilidadEntity vol_habilidad = null;
         String sqlQuery = "SELECT * FROM vol_habilidad WHERE id_vol_habilidad = :id";
         try (Connection con = sql2o.open()) {

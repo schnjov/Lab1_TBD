@@ -41,7 +41,7 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
         }
     }
     @Override
-    public Tarea_HabilidadEntity findByIdTareaHabilidad(Long id) {
+    public Tarea_HabilidadEntity findById(Long id) {
         Tarea_HabilidadEntity tareahabilidad = null;
         String sqlQuery = "SELECT * FROM tarea_habilidad WHERE id_tarea_habilidad = :id";
         try (Connection con = sql2o.open()) {

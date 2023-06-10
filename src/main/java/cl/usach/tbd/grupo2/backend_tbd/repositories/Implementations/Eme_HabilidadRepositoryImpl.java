@@ -42,7 +42,7 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
     }
 
     @Override
-    public Eme_HabilidadEntity findByIdEmeHabilidad(Long id) {
+    public Eme_HabilidadEntity findById(Long id) {
         Eme_HabilidadEntity eme_habilidad = null;
         String sqlQuery = "SELECT * FROM eme_habilidad WHERE id_eme_habilidad = :id";
         try (Connection con = sql2o.open()) {
