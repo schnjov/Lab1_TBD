@@ -21,7 +21,7 @@ public class TareaController {
         return new ResponseEntity<>(tareas, HttpStatus.OK);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<TareaEntity> findById(@PathVariable Long id) {
         TareaEntity tarea = tareaRepository.findById(id);
         if (tarea != null) {

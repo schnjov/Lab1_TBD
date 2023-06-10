@@ -21,7 +21,7 @@ public class InstitucionController {
         return new ResponseEntity<>(instituciones, HttpStatus.OK);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<InstitucionEntity> findById(@PathVariable Long id) {
         InstitucionEntity institucion = institucionRepository.findById(id);
         if (institucion != null) {

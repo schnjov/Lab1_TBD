@@ -22,7 +22,7 @@ public class EmergenciaController {
         return new ResponseEntity<>(emergencias, HttpStatus.OK);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<EmergenciaEntity> findById(@PathVariable Long id) {
         EmergenciaEntity emergencia = emergenciaRepository.findById(id);
         if (emergencia != null) {

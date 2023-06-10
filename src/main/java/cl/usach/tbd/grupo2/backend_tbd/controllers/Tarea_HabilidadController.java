@@ -21,7 +21,7 @@ public class Tarea_HabilidadController {
         return new ResponseEntity<>(tarea_habilidades, HttpStatus.OK);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Tarea_HabilidadEntity> findById(@PathVariable Long id) {
         Tarea_HabilidadEntity tarea_habilidad = tarea_habilidadRepository.findById(id);
         if (tarea_habilidad != null) {

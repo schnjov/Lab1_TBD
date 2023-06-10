@@ -21,7 +21,7 @@ public class Vol_HabilidadController {
         return new ResponseEntity<>(vol_habilidades, HttpStatus.OK);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Vol_HabilidadEntity> findById(@PathVariable Long id) {
         Vol_HabilidadEntity vol_habilidad = vol_habilidadRepository.findById(id);
         if (vol_habilidad != null) {

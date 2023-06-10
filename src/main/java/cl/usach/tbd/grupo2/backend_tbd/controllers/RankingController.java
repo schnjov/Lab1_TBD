@@ -21,7 +21,7 @@ public class RankingController {
         return new ResponseEntity<>(rankings, HttpStatus.OK);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<RankingEntity> findById(@PathVariable Long id) {
         RankingEntity ranking = rankingRepository.findById(id);
         if (ranking != null) {

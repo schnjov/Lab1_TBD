@@ -21,7 +21,7 @@ public class Eme_HabilidadController {
         return new ResponseEntity<>(eme_habilidades, HttpStatus.OK);
     }
 
-    @GetMapping("/id")
+    @GetMapping("/{id}")
     public ResponseEntity<Eme_HabilidadEntity> findById(@PathVariable Long id) {
         Eme_HabilidadEntity eme_habilidad = eme_habilidadRepository.findById(id);
         if (eme_habilidad != null) {
