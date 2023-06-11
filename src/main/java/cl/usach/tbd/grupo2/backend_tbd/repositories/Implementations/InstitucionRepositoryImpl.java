@@ -16,24 +16,30 @@ public class InstitucionRepositoryImpl implements InstitucionRepository {
     @Override
     public List<InstitucionEntity> findAll() {
         try (Connection connection = sql2o.open()) {
-            String query = "SELECT id, nombre, direccion, telefono FROM institucion";
+            String query = "SELECT * FROM institucion";
             return connection.createQuery(query).executeAndFetch(InstitucionEntity.class);
         }
     }
+
     @Override
     public InstitucionEntity findById(Long id) {
-        try (Connection connection = sql2o.open()) {
-            String query = "SELECT id, nombre, direccion, telefono FROM institucion WHERE id = :id";
-            return connection.createQuery(query)
+        String sqlQuery = "SELECT * FROM institucion WHERE id_institucion = :id";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sqlQuery)
                     .addParameter("id", id)
                     .executeAndFetchFirst(InstitucionEntity.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return null;
         }
     }
+
     @Override
     public void create(InstitucionEntity institucion) {
         try (Connection connection = sql2o.beginTransaction()) {
-            String query = "INSERT INTO institucion (nombre, direccion, telefono) VALUES (:nombre, :direccion, :telefono)";
+            String query = "INSERT INTO institucion (id_institucion, nombre, direccion, telefono) VALUES (:idInstitucion, :nombre, :direccion, :telefono)";
             connection.createQuery(query)
+                    .addParameter("idInstitucion", institucion.getIdInstitucion())
                     .addParameter("nombre", institucion.getNombre())
                     .addParameter("direccion", institucion.getDireccion())
                     .addParameter("telefono", institucion.getTelefono())
@@ -44,12 +50,12 @@ public class InstitucionRepositoryImpl implements InstitucionRepository {
     @Override
     public void update(InstitucionEntity institucion) {
         try (Connection connection = sql2o.beginTransaction()) {
-            String query = "UPDATE institucion SET nombre = :nombre, direccion = :direccion, telefono = :telefono WHERE id = :id";
+            String query = "UPDATE institucion SET nombre = :nombre, direccion = :direccion, telefono = :telefono WHERE id_institucion = :idInstitucion";
             connection.createQuery(query)
                     .addParameter("nombre", institucion.getNombre())
                     .addParameter("direccion", institucion.getDireccion())
                     .addParameter("telefono", institucion.getTelefono())
-                    .addParameter("id", institucion.getIdInstitucion())
+                    .addParameter("idInstitucion", institucion.getIdInstitucion())
                     .executeUpdate();
             connection.commit();
         }
@@ -57,13 +63,11 @@ public class InstitucionRepositoryImpl implements InstitucionRepository {
     @Override
     public void delete(Long id) {
         try (Connection connection = sql2o.beginTransaction()) {
-            String query = "DELETE FROM institucion WHERE id = :id";
+            String query = "DELETE FROM institucion WHERE id_institucion = :idInstitucion";
             connection.createQuery(query)
-                    .addParameter("id", id)
+                    .addParameter("idInstitucion", id)
                     .executeUpdate();
             connection.commit();
         }
     }
-
-
 }

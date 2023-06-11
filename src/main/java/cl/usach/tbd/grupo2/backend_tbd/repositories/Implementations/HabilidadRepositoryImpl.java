@@ -18,7 +18,7 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
     @Override
     public List<HabilidadEntity> findAll() {
         List<HabilidadEntity> habilidades = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM public.habilidad ORDER BY id_habilidad ASC";
+        String sqlQuery = "SELECT * FROM habilidad ORDER BY id_habilidad ASC";
         try (Connection con = sql2o.open()){
             habilidades = con.createQuery(sqlQuery).executeAndFetch(HabilidadEntity.class);
         } catch (Exception e) {
@@ -31,42 +31,39 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
 
     @Override
     public void create(HabilidadEntity habilidad) {
-        String sqlQuery = "INSERT INTO habilidad (idHabilidad, Habilidad) VALUES (:habilidad.getIdHabilidad(), :habilidad.getHabilidad())";
+        String sqlQuery = "INSERT INTO habilidad (id_habilidad, habilidad) VALUES (:idHabilidad, :habilidad)";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
                     .addParameter("idHabilidad", habilidad.getIdHabilidad())
-                    .addParameter("Habilidad", habilidad.getHabilidad())
+                    .addParameter("habilidad", habilidad.getHabilidad())
                     .executeUpdate();
             con.commit();
         } catch (Exception e) {
             // Conexion a sql ha fallado
             throw new RuntimeException(e);
-
         }
-
     }
 
     @Override
     public HabilidadEntity findById(Long id) {
-        HabilidadEntity habilidad = null;
-        String sqlQuery = "SELECT * FROM habilidad WHERE idHabilidad = :id";
-        try (Connection con = sql2o.open()){
-            habilidad = (HabilidadEntity)con.createQuery(sqlQuery).addParameter("idHabilidad", id).executeAndFetch(HabilidadEntity.class);
+        String sqlQuery = "SELECT * FROM habilidad WHERE id_habilidad = :id";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sqlQuery)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(HabilidadEntity.class);
         } catch (Exception e) {
-            // Conexion a sql ha fallado//
-            throw new RuntimeException(e);
+            System.out.println("Error: " + e);
+            return null;
         }
-        return habilidad;
     }
 
     @Override
     public void update(HabilidadEntity habilidad) {
-
-        String sqlQuery = "UPDATE habilidad SET Habilidad = :habilidad.getHabilidad() WHERE idHabilidad = :habilidad.getIdHabilidad()";
+        String sqlQuery = "UPDATE habilidad SET habilidad = :habilidad WHERE id_habilidad = :idHabilidad";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
-                    .addParameter("id_habilidad", habilidad.getIdHabilidad())
-                    .addParameter("nombre_habilidad", habilidad.getHabilidad())
+                    .addParameter("idHabilidad", habilidad.getIdHabilidad())
+                    .addParameter("habilidad", habilidad.getHabilidad())
                     .executeUpdate();
             con.commit();
         }catch (Exception e) {
@@ -77,16 +74,15 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
 
     @Override
     public void delete(Long id) {
-        String sqlQuery = "DELETE FROM habilidad WHERE idHabilidad = :id";
+        String sqlQuery = "DELETE FROM habilidad WHERE id_habilidad = :idHabilidad";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
                     .addParameter("idHabilidad", id)
                     .executeUpdate();
             con.commit();
         }catch (Exception e) {
-            // Conexion a sql ha fallado//
+            // Conexion a sql ha fallado
             throw new RuntimeException(e);
         }
-
     }
 }

@@ -18,7 +18,7 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
     @Override
     public List<Eme_HabilidadEntity> findAll() {
         List<Eme_HabilidadEntity> eme_habilidades = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM public.eme_habilidad ORDER BY idEmeHabilidad ASC";
+        String sqlQuery = "SELECT * FROM eme_habilidad ORDER BY id_eme_habilidad ASC";
         try (Connection con = sql2o.open()) {
             eme_habilidades = con.createQuery(sqlQuery).executeAndFetch(Eme_HabilidadEntity.class);
         } catch (Exception e) {
@@ -30,12 +30,12 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
 
     @Override
     public void create(Eme_HabilidadEntity eme_habilidad) {
-        String sqlQuery = "INSERT INTO eme_habilidad (idEmeHabilidad, idEmergencia, idHabilidad) VALUES (:id_eme_habilidad, :id_emergencia, :id_habilidad)";
+        String sqlQuery = "INSERT INTO eme_habilidad (id_eme_habilidad, id_emergencia, id_habilidad) VALUES (:idEmeHabilidad, :idEmergencia, :idHabilidad)";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sqlQuery)
-                    .addParameter("id_eme_habilidad", eme_habilidad.getIdEmeHabilidad())
-                    .addParameter("id_emergencia", eme_habilidad.getIdEmergencia())
-                    .addParameter("id_habilidad", eme_habilidad.getIdHabilidad())
+                    .addParameter("idEmeHabilidad", eme_habilidad.getIdEmeHabilidad())
+                    .addParameter("idEmergencia", eme_habilidad.getIdEmergencia())
+                    .addParameter("idHabilidad", eme_habilidad.getIdHabilidad())
                     .executeUpdate();
             con.commit();
         }
@@ -43,14 +43,15 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
 
     @Override
     public Eme_HabilidadEntity findById(Long id) {
-        Eme_HabilidadEntity eme_habilidad = null;
         String sqlQuery = "SELECT * FROM eme_habilidad WHERE id_eme_habilidad = :id";
         try (Connection con = sql2o.open()) {
-            eme_habilidad = con.createQuery(sqlQuery).addParameter("entrada", id).executeAndFetch(Eme_HabilidadEntity.class).get(0);
+            return con.createQuery(sqlQuery)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Eme_HabilidadEntity.class);
         } catch (Exception e) {
             System.out.println("Error: " + e);
+            return null;
         }
-        return eme_habilidad;
     }
 
     @Override
@@ -80,12 +81,12 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
 
     @Override
     public void update(Eme_HabilidadEntity eme_habilidad) {
-        String sqlQuery = "UPDATE eme_habilidad SET idEmergencia = :id_emergencia, idHabilidad = :id_habilidad WHERE idEmeHabilidad = :id_eme_habilidad";
+        String sqlQuery = "UPDATE eme_habilidad SET id_emergencia = :idEmergencia, id_habilidad = :idHabilidad WHERE id_eme_habilidad = :idEmeHabilidad";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
-                    .addParameter("id_emergencia", eme_habilidad.getIdEmergencia())
-                    .addParameter("id_habilidad", eme_habilidad.getIdHabilidad())
-                    .addParameter("id_eme_habilidad", eme_habilidad.getIdEmeHabilidad())
+                    .addParameter("idEmergencia", eme_habilidad.getIdEmergencia())
+                    .addParameter("idHabilidad", eme_habilidad.getIdHabilidad())
+                    .addParameter("idEmeHabilidad", eme_habilidad.getIdEmeHabilidad())
                     .executeUpdate();
             con.commit();
         }
@@ -93,7 +94,7 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
 
     @Override
     public void delete(Long id) {
-        String sqlQuery = "DELETE FROM eme_habilidad WHERE idEmeHabilidad = :id";
+        String sqlQuery = "DELETE FROM eme_habilidad WHERE id_eme_habilidad = :id";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sqlQuery).addParameter("id", id).executeUpdate();
             con.commit();

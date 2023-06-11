@@ -31,10 +31,20 @@ public class TareaController {
         }
     }
 
-    @GetMapping("/idEmergencia")
-    public ResponseEntity<List<TareaEntity>> findByIdEmergencia(@PathVariable Long id) {
-        List<TareaEntity> tareas = tareaRepository.findByIdEmergencia(id);
+    @GetMapping("/idEmergencia/{idEmergencia}")
+    public ResponseEntity<List<TareaEntity>> findByIdEmergencia(@PathVariable Long idEmergencia) {
+        List<TareaEntity> tareas = tareaRepository.findByIdEmergencia(idEmergencia);
         if (tareas != null) {
+            return new ResponseEntity<>(tareas, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("/region/{region}")
+    public ResponseEntity<List<TareaEntity>> findByRegion(@PathVariable int region) {
+        List<TareaEntity> tareas = tareaRepository.findByRegion(region);
+        if (!tareas.isEmpty()) {
             return new ResponseEntity<>(tareas, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);

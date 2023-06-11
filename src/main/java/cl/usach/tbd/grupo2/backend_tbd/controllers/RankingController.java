@@ -31,7 +31,7 @@ public class RankingController {
         }
     }
 
-    @GetMapping("/id_tarea")
+    @GetMapping("/tarea/{idTarea}")
     public ResponseEntity<List<RankingEntity>> findByIdTarea(@PathVariable Long idTarea) {
         List<RankingEntity> ranking = rankingRepository.findByIdTarea(idTarea);
         if (ranking != null) {
@@ -59,5 +59,4 @@ public class RankingController {
         rankingRepository.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
 }

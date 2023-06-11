@@ -14,28 +14,28 @@ import org.sql2o.Sql2o;
 
 @Repository
 public class TareaRepositoryImpl implements TareaRepository {
-
     @Autowired
     private Sql2o sql2o;
+
     @Override
     public void create(TareaEntity tarea) {
-
-        String sqlQuery = "INSERT INTO tarea (idTarea, asuntoTarea, idEmergencia, idEstadoTarea) VALUES (:tarea.getIdTarea(), :tarea.getAsuntoTarea(), :tarea.getIdEmergencia(), :tarea.getIdEstadoTarea())";
-        try (Connection con = sql2o.beginTransaction()){
+        String sqlQuery = "INSERT INTO tarea (id_tarea, asunto_tarea, id_emergencia, estado_tarea) VALUES (:idTarea, :asuntoTarea, :idEmergencia, :estadoTarea)";
+        try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
                     .addParameter("idTarea", tarea.getIdTarea())
                     .addParameter("asuntoTarea", tarea.getAsuntoTarea())
                     .addParameter("idEmergencia", tarea.getIdEmergencia())
-                    .addParameter("idEstadoTarea", tarea.getEstadoTarea())
+                    .addParameter("estadoTarea", tarea.getEstadoTarea())
                     .executeUpdate();
-            con.commit();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
 
     @Override
     public List<TareaEntity> findAll() {
         List<TareaEntity> tareas = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM public.tarea ORDER BY idTarea ASC";
+        String sqlQuery = "SELECT * FROM tarea ORDER BY id_tarea ASC";
         try (Connection con = sql2o.open()){
             tareas = con.createQuery(sqlQuery).executeAndFetch(TareaEntity.class);
         } catch (Exception e) {
@@ -48,7 +48,7 @@ public class TareaRepositoryImpl implements TareaRepository {
     @Override
     public TareaEntity findById(Long id) {
         TareaEntity tarea = null;
-        String sqlQuery = "SELECT * FROM tarea WHERE idTarea = :id";
+        String sqlQuery = "SELECT * FROM tarea WHERE id_tarea = :idTarea";
         try (Connection con = sql2o.open()){
             tarea = (TareaEntity)con.createQuery(sqlQuery).addParameter("idTarea", id).executeAndFetch(TareaEntity.class);
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class TareaRepositoryImpl implements TareaRepository {
     @Override
     public List<TareaEntity> findByIdEmergencia(Long id) {
         List<TareaEntity> tareas = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM tarea WHERE tarea.idEmergencia = :id";
+        String sqlQuery = "SELECT * FROM tarea WHERE id_emergencia = :idEmergencia";
         try (Connection con = sql2o.open()){
             tareas = con.createQuery(sqlQuery).addParameter("idEmergencia", id).executeAndFetch(TareaEntity.class);
         } catch (Exception e) {
@@ -72,28 +72,39 @@ public class TareaRepositoryImpl implements TareaRepository {
     }
 
     @Override
+    public List<TareaEntity> findByRegion(int region) {
+        try (Connection connection = sql2o.open()) {
+            String query = "SELECT t.* FROM tarea t INNER JOIN emergencia e ON t.id_emergencia = e.id_emergencia WHERE e.region = :region";
+            return connection.createQuery(query)
+                    .addParameter("region", region)
+                    .executeAndFetch(TareaEntity.class);
+        }
+    }
+
+    @Override
     public void update(TareaEntity tarea) {
-        String sqlQuery = "UPDATE tarea SET asuntoTarea = : tarea.getAsuntoTarea(), idEmergencia= :tarea.getIdEmergencia(), idEstadoTarea = :tarea.getIdEstadoTarea() WHERE idTarea = :tarea.getIdTarea()";
-        try (Connection con = sql2o.beginTransaction()){
+        String sqlQuery = "UPDATE tarea SET asunto_tarea = :asuntoTarea, id_emergencia = :idEmergencia, estado_tarea = :estadoTarea WHERE id_tarea = :idTarea";
+        try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("idTarea", tarea.getIdTarea())
                     .addParameter("asuntoTarea", tarea.getAsuntoTarea())
                     .addParameter("idEmergencia", tarea.getIdEmergencia())
-                    .addParameter("idEstadoTarea", tarea.getEstadoTarea())
+                    .addParameter("estadoTarea", tarea.getEstadoTarea())
+                    .addParameter("idTarea", tarea.getIdTarea())
                     .executeUpdate();
-            con.commit();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
 
     @Override
     public void delete(Long id) {
-        String sqlQuery = "DELETE FROM tarea WHERE idTarea = :id";
-        try (Connection con = sql2o.beginTransaction()){
+        String sqlQuery = "DELETE FROM tarea WHERE id_tarea = :id";
+        try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("idTarea", id)
+                    .addParameter("id", id)
                     .executeUpdate();
-            con.commit();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
-
     }
 }

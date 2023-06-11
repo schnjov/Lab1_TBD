@@ -18,38 +18,40 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
     @Override
     public List<Tarea_HabilidadEntity> findAll() {
         List<Tarea_HabilidadEntity> tareahabilidades = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM public.tarea_habilidad ORDER BY idTareaHabilidad ASC";
+        String sqlQuery = "SELECT * FROM tarea_habilidad ORDER BY id_tarea_habilidad ASC";
         try (Connection con = sql2o.open()) {
             tareahabilidades = con.createQuery(sqlQuery).executeAndFetch(Tarea_HabilidadEntity.class);
         } catch (Exception e) {
             // Conexion a sql ha fallado
-
         }
         return tareahabilidades;
     }
 
     @Override
     public void create(Tarea_HabilidadEntity tarea_habilidad) {
-        String sqlQuery = "INSERT INTO ranking (idTareaHabilidad, idTarea, idHabilidad) VALUES (:id_tarea_habilidad, :id_tarea, :id_habilidad)";
-        try (Connection con = sql2o.beginTransaction()) {
-            con.createQuery(sqlQuery)
-                    .addParameter("id_tarea_habilidad", tarea_habilidad.getIdTareaHabilidad())
-                    .addParameter("id_tarea", tarea_habilidad.getIdTarea())
-                    .addParameter("id_habilidad", tarea_habilidad.getIdHabilidad())
-                    .executeUpdate();
-            con.commit();
-        }
-    }
-    @Override
-    public Tarea_HabilidadEntity findById(Long id) {
-        Tarea_HabilidadEntity tareahabilidad = null;
-        String sqlQuery = "SELECT * FROM tarea_habilidad WHERE id_tarea_habilidad = :id";
+        String sqlQuery = "INSERT INTO tarea_habilidad(id_tarea_habilidad, id_tarea, id_habilidad) VALUES (:idTareaHabilidad, :idTarea, :idHabilidad)";
         try (Connection con = sql2o.open()) {
-            tareahabilidad = con.createQuery(sqlQuery).addParameter("entrada", id).executeAndFetch(Tarea_HabilidadEntity.class).get(0);
+            con.createQuery(sqlQuery)
+                    .addParameter("idTareaHabilidad", tarea_habilidad.getIdTareaHabilidad())
+                    .addParameter("idTarea", tarea_habilidad.getIdTarea())
+                    .addParameter("idHabilidad", tarea_habilidad.getIdHabilidad())
+                    .executeUpdate();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-        return tareahabilidad;
+    }
+
+    @Override
+    public Tarea_HabilidadEntity findById(Long id) {
+        String sqlQuery = "SELECT * FROM tarea_habilidad WHERE id_tarea_habilidad = :id";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sqlQuery)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Tarea_HabilidadEntity.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return null;
+        }
     }
 
     @Override
@@ -78,16 +80,15 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
 
     @Override
     public void update(Tarea_HabilidadEntity tarea_habilidad) {
-        String sqlQuery = "UPDATE ranking SET idTarea = :id_tarea, idHabilidad = :id_habilidad WHERE idTareaHabilidad = :id_tarea_habilidad";
-        try (Connection con = sql2o.beginTransaction()){
+        String sqlQuery = "UPDATE tarea_habilidad SET id_tarea = :idTarea, id_habilidad = :idHabilidad WHERE id_tarea_habilidad = :idTareaHabilidad";
+        try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("id_tarea_habilidad", tarea_habilidad.getIdTareaHabilidad())
-                    .addParameter("id_tarea", tarea_habilidad.getIdTarea())
-                    .addParameter("id_habilidad", tarea_habilidad.getIdHabilidad())
+                    .addParameter("idTarea", tarea_habilidad.getIdTarea())
+                    .addParameter("idHabilidad", tarea_habilidad.getIdHabilidad())
+                    .addParameter("idTareaHabilidad", tarea_habilidad.getIdTareaHabilidad())
                     .executeUpdate();
-            con.commit();
-        }catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
 
@@ -100,5 +101,4 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
             System.out.println("Error: " + e);
         }
     }
-
 }

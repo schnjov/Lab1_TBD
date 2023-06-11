@@ -1,6 +1,9 @@
 CREATE EXTENSION postgis;
 
 ALTER TABLE emergencia
+ADD COLUMN region INT NOT NULL;
+
+ALTER TABLE emergencia
 ADD COLUMN ubicacion GEOMETRY(POINT, 4326) DEFAULT NULL;
 
 ALTER TABLE voluntario

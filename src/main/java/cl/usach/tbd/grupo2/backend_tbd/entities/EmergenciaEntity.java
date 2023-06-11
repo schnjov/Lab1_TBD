@@ -16,7 +16,7 @@ public class EmergenciaEntity {
     private Date fecha;
     public Boolean activa;
     private Integer idInstitucion;
-
+    private Integer region;
     private PGgeometry ubicacion;
 
     public Long getIdEmergencia() {
@@ -73,6 +73,15 @@ public class EmergenciaEntity {
 
     public void setIdInstitucion(Integer idInstitucion) {
         this.idInstitucion = idInstitucion;
+    }
+
+
+    public Integer getRegion() {
+        return this.region;
+    }
+
+    public void setRegion(Integer region) {
+        this.region = region;
     }
 
     public PGgeometry getUbicacion() {

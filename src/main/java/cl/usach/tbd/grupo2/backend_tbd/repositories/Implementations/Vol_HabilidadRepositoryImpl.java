@@ -18,39 +18,40 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
     @Override
     public List<Vol_HabilidadEntity> findAll() {
         List<Vol_HabilidadEntity> vol_habilidades = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM public.vol_habilidad ORDER BY idVolHabilidad ASC";
+        String sqlQuery = "SELECT * FROM vol_habilidad ORDER BY id_vol_habilidad ASC";
         try (Connection con = sql2o.open()) {
             vol_habilidades = con.createQuery(sqlQuery).executeAndFetch(Vol_HabilidadEntity.class);
         } catch (Exception e) {
             // Conexion a sql ha fallado
-
         }
         return vol_habilidades;
     }
 
     @Override
-    public void create(Vol_HabilidadEntity vol_habilidad) {
-        String sqlQuery = "INSERT INTO vol_habilidad (idVolHabilidad, idVoluntario, idHabilidad) VALUES (:id_vol_habilidad, :id_voluntario, :id_habilidad)";
-        try (Connection con = sql2o.beginTransaction()) {
+    public void create(Vol_HabilidadEntity volHabilidad) {
+        String sqlQuery = "INSERT INTO vol_habilidad (id_vol_habilidad, id_voluntario, id_habilidad) VALUES (:idVolHabilidad, :idVoluntario, :idHabilidad)";
+        try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("id_vol_habilidad", vol_habilidad.getIdVolHabilidad())
-                    .addParameter("id_voluntario", vol_habilidad.getIdVoluntario())
-                    .addParameter("id_habilidad", vol_habilidad.getIdHabilidad())
+                    .addParameter("idVolHabilidad", volHabilidad.getIdVolHabilidad())
+                    .addParameter("idVoluntario", volHabilidad.getIdVoluntario())
+                    .addParameter("idHabilidad", volHabilidad.getIdHabilidad())
                     .executeUpdate();
-            con.commit();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
 
     @Override
     public Vol_HabilidadEntity findById(Long id) {
-        Vol_HabilidadEntity vol_habilidad = null;
         String sqlQuery = "SELECT * FROM vol_habilidad WHERE id_vol_habilidad = :id";
         try (Connection con = sql2o.open()) {
-            vol_habilidad = con.createQuery(sqlQuery).addParameter("entrada", id).executeAndFetch(Vol_HabilidadEntity.class).get(0);
+            return con.createQuery(sqlQuery)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(Vol_HabilidadEntity.class);
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
-        return vol_habilidad;
+        return null;
     }
 
     @Override
@@ -78,25 +79,28 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
     }
 
     @Override
-    public void update(Vol_HabilidadEntity vol_habilidad) {
-        String sqlQuery = "UPDATE vol_habilidad SET idVoluntario = :id_voluntario, idHabilidad = :id_habilidad WHERE idVolHabilidad = :id_vol_habilidad";
-        try (Connection con = sql2o.beginTransaction()){
+    public void update(Vol_HabilidadEntity volHabilidad) {
+        String sqlQuery = "UPDATE vol_habilidad SET id_voluntario = :idVoluntario, id_habilidad = :idHabilidad WHERE id_vol_habilidad = :idVolHabilidad";
+        try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("id_voluntario", vol_habilidad.getIdVoluntario())
-                    .addParameter("id_habilidad", vol_habilidad.getIdHabilidad())
-                    .addParameter("id_vol_habilidad", vol_habilidad.getIdVolHabilidad())
+                    .addParameter("idVoluntario", volHabilidad.getIdVoluntario())
+                    .addParameter("idHabilidad", volHabilidad.getIdHabilidad())
+                    .addParameter("idVolHabilidad", volHabilidad.getIdVolHabilidad())
                     .executeUpdate();
-            con.commit();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
 
     @Override
     public void delete(Long id) {
-        String sqlQuery = "DELETE FROM vol_habilidad WHERE idVolHabilidad = :id";
-        try (Connection con = sql2o.beginTransaction()) {
-            con.createQuery(sqlQuery).addParameter("id", id).executeUpdate();
-            con.commit();
+        String sqlQuery = "DELETE FROM vol_habilidad WHERE id_vol_habilidad = :id";
+        try (Connection con = sql2o.open()) {
+            con.createQuery(sqlQuery)
+                    .addParameter("id", id)
+                    .executeUpdate();
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
-
 }

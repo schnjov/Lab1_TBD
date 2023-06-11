@@ -15,6 +15,8 @@ public interface TareaRepository {
 
     public List<TareaEntity> findByIdEmergencia(Long id);
 
+    public List<TareaEntity> findByRegion(int region);
+
     public void update(TareaEntity tarea);
 
     public void delete(Long id);

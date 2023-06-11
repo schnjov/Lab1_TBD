@@ -9,6 +9,7 @@ public interface EmergenciaRepository {
     public List<EmergenciaEntity> findAll();
     public EmergenciaEntity create(EmergenciaEntity emergencia);
     public EmergenciaEntity findById(Long id);
+    public EmergenciaEntity findByTarea(Long idTarea);
     public EmergenciaEntity update(EmergenciaEntity emergencia);
     public void delete(Long id);
 }

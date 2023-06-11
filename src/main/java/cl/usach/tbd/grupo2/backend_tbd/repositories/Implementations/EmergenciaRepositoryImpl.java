@@ -1,6 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
+import cl.usach.tbd.grupo2.backend_tbd.entities.HabilidadEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.EmergenciaRepository;
 import net.postgis.jdbc.PGgeometry;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
     @Override
     public List<EmergenciaEntity> findAll() {
         List<EmergenciaEntity> emergencias = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM public.emergencia ORDER BY idEmergencia ASC";
+        String sqlQuery = "SELECT * FROM emergencia ORDER BY id_emergencia ASC";
         try (Connection con = sql2o.open()) {
             emergencias = con.createQuery(sqlQuery).executeAndFetch(EmergenciaEntity.class);
         } catch (Exception e) {
@@ -31,7 +32,7 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
 
     @Override
     public EmergenciaEntity create(EmergenciaEntity emergencia) {
-        String sqlQuery = "INSERT INTO emergencia (id_emergencia, asunto, fecha, descripcion, direccion, activa,id_institucion) VALUES (:id_emergencia, :asunto, :fecha, :descripcion, :direccion, :activa, :id_institucion)";
+        String sqlQuery = "INSERT INTO emergencia (id_emergencia, asunto, fecha, descripcion, direccion, activa, id_institucion, region, ubicacion) VALUES (:id_emergencia, :asunto, :fecha, :descripcion, :direccion, :activa, :id_institucion, :region, :ubicacion)";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sqlQuery)
                     .addParameter("asunto", emergencia.getAsunto())
@@ -40,6 +41,8 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
                     .addParameter("direccion", emergencia.getDireccion())
                     .addParameter("activa", emergencia.getActiva())
                     .addParameter("id_institucion", emergencia.getIdInstitucion())
+                    .addParameter("region", emergencia.getRegion())
+                    .addParameter("ubicacion", emergencia.getUbicacion())
                     .executeUpdate();
             con.commit();
         }
@@ -48,29 +51,41 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
 
     @Override
     public EmergenciaEntity findById(Long id) {
-        EmergenciaEntity emergencia = null;
         String sqlQuery = "SELECT * FROM emergencia WHERE id_emergencia = :id";
         try (Connection con = sql2o.open()) {
-            emergencia = con.createQuery(sqlQuery).addParameter("entrada", id).executeAndFetch(EmergenciaEntity.class).get(0);
+            return con.createQuery(sqlQuery)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(EmergenciaEntity.class);
         } catch (Exception e) {
             System.out.println("Error: " + e);
+            return null;
         }
-        return emergencia;
+    }
+
+    @Override
+    public EmergenciaEntity findByTarea(Long idTarea) {
+        try (Connection connection = sql2o.open()) {
+            String query = "SELECT e.* FROM emergencia e INNER JOIN tarea t ON t.id_emergencia = e.id_emergencia WHERE t.id_tarea = :idTarea";
+            return connection.createQuery(query)
+                    .addParameter("idTarea", idTarea)
+                    .executeAndFetchFirst(EmergenciaEntity.class);
+        }
     }
 
     @Override
     public EmergenciaEntity update(EmergenciaEntity emergencia) {
-        String sqlQuery = "UPDATE emergencia SET asunto = :emergencia.getAsunto(), descripcion = :emergencia.getDescripcion(), direccion = :emergencia.getDireccion(), fecha =:emergencia.getFecha(), activa = :emergencia.getActiva(), id_institucion = :emergencia.getIdInstitucion() WHERE id_emergencia = :emergencia.getidEmergencia()";
+        String sqlQuery = "UPDATE emergencia SET asunto = :asunto, descripcion = :descripcion, direccion = :direccion, fecha =:fecha, activa = :activa, id_institucion = :idInstitucion, region = :region, ubicacion = :ubicacion WHERE id_emergencia = :idEmergencia";
         try (Connection con = sql2o.beginTransaction()) {
-
             con.createQuery(sqlQuery)
                     .addParameter("idEmergencia", emergencia.getIdEmergencia())
                     .addParameter("asunto", emergencia.getAsunto())
-                    .addParameter("fecha", emergencia.getFecha())
                     .addParameter("descripcion", emergencia.getDescripcion())
                     .addParameter("direccion", emergencia.getDireccion())
+                    .addParameter("fecha", emergencia.getFecha())
                     .addParameter("activa", emergencia.getActiva())
                     .addParameter("idInstitucion", emergencia.getIdInstitucion())
+                    .addParameter("region", emergencia.getRegion())
+                    .addParameter("ubicacion", emergencia.getUbicacion())
                     .executeUpdate();
             con.commit();
 
@@ -82,7 +97,7 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
 
     @Override
     public void delete(Long id) {
-        String sqlQuery = "DELETE FROM emergencia WHERE idEmergencia = :id";
+        String sqlQuery = "DELETE FROM emergencia WHERE id_emergencia = :idEmergencia";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
                     .addParameter("idEmergencia", id)

@@ -17,7 +17,7 @@ public class RankingRepositoryImpl implements RankingRepository {
     @Override
     public List<RankingEntity> findAll() {
         List<RankingEntity> rankings = new ArrayList<>();
-        String sqlQuery = "SELECT * FROM public.ranking ORDER BY idRanking ASC";
+        String sqlQuery = "SELECT * FROM ranking ORDER BY id_ranking ASC";
         try (Connection con = sql2o.open()) {
             rankings = con.createQuery(sqlQuery).executeAndFetch(RankingEntity.class);
         } catch (Exception e) {
@@ -30,7 +30,7 @@ public class RankingRepositoryImpl implements RankingRepository {
     @Override
     public List<RankingEntity> findByIdTarea(Long id) {
         List<RankingEntity> ranking = null;
-        String sqlQuery = "SELECT * FROM ranking WHERE idTarea = :id";
+        String sqlQuery = "SELECT * FROM ranking WHERE id_tarea = :idTarea";
         try (Connection con = sql2o.open()) {
             ranking = con.createQuery(sqlQuery).addParameter("idTarea", id).executeAndFetch(RankingEntity.class);
         } catch (Exception e) {
@@ -41,21 +41,21 @@ public class RankingRepositoryImpl implements RankingRepository {
 
     @Override
     public void create(RankingEntity ranking) {
-        String sqlQuery = "INSERT INTO ranking (idRanking, idTarea, idVoluntario, Puntaje) VALUES (:id_ranking, :id_tarea, :id_voluntario, :puntaje)";
+        String sqlQuery = "INSERT INTO ranking (id_ranking, id_tarea, id_voluntario, puntaje) VALUES (:idRanking, :idTarea, :idVoluntario, :puntaje)";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sqlQuery)
-                    .addParameter("id_tarea", ranking.getIdTarea())
-                    .addParameter("id_voluntario", ranking.getIdVoluntario())
+                    .addParameter("idRanking", ranking.getIdRanking())
+                    .addParameter("idTarea", ranking.getIdTarea())
+                    .addParameter("idVoluntario", ranking.getIdVoluntario())
                     .addParameter("puntaje", ranking.getPuntaje())
                     .executeUpdate();
             con.commit();
         }
     }
 
-
     @Override
     public void delete(Long id) {
-        String sqlQuery = "DELETE FROM rankin WHERE idRanking = :id";
+        String sqlQuery = "DELETE FROM ranking WHERE id_ranking = :idRanking";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
                     .addParameter("idRanking", id)
@@ -68,12 +68,12 @@ public class RankingRepositoryImpl implements RankingRepository {
 
     @Override
     public void update(RankingEntity ranking) {
-        String sqlQuery = "UPDATE ranking SET idTarea = :id_tarea, idVoluntario = :id_voluntario, Puntaje = :puntaje WHERE idRanking = :id_ranking";
+        String sqlQuery = "UPDATE ranking SET id_tarea = :idTarea, id_voluntario = :idVoluntario, puntaje = :puntaje WHERE id_ranking = :idRanking";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
-                    .addParameter("id_ranking", ranking.getIdRanking())
-                    .addParameter("id_tarea", ranking.getIdTarea())
-                    .addParameter("id_voluntario", ranking.getIdVoluntario())
+                    .addParameter("idRanking", ranking.getIdRanking())
+                    .addParameter("idTarea", ranking.getIdTarea())
+                    .addParameter("idVoluntario", ranking.getIdVoluntario())
                     .addParameter("puntaje", ranking.getPuntaje())
                     .executeUpdate();
             con.commit();
@@ -84,13 +84,14 @@ public class RankingRepositoryImpl implements RankingRepository {
 
     @Override
     public RankingEntity findById(Long id) {
-        RankingEntity ranking = null;
         String sqlQuery = "SELECT * FROM ranking WHERE id_ranking = :id";
         try (Connection con = sql2o.open()) {
-            ranking = con.createQuery(sqlQuery).addParameter("entrada", id).executeAndFetch(RankingEntity.class).get(0);
+            return con.createQuery(sqlQuery)
+                    .addParameter("id", id)
+                    .executeAndFetchFirst(RankingEntity.class);
         } catch (Exception e) {
             System.out.println("Error: " + e);
+            return null;
         }
-        return ranking;
     }
 }

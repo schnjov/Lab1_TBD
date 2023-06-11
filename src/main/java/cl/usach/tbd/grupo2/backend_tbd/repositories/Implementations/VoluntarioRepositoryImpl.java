@@ -19,7 +19,7 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public List<VoluntarioEntity> findAll() {
         try (Connection connection = sql2o.open()) {
-            String query = "SELECT id, nombre, apellido, email, telefono, direccion FROM voluntario";
+            String query = "SELECT * FROM voluntario";
             return connection.createQuery(query).executeAndFetch(VoluntarioEntity.class);
         }
     }
@@ -27,7 +27,7 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public VoluntarioEntity findById(Long id) {
         try (Connection connection = sql2o.open()) {
-            String query = "SELECT id, nombre, apellido, email, telefono, direccion FROM voluntario WHERE id = :id";
+            String query = "SELECT * FROM voluntario WHERE id = :id";
             return connection.createQuery(query)
                     .addParameter("id", id)
                     .executeAndFetchFirst(VoluntarioEntity.class);
@@ -56,13 +56,14 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public void create(VoluntarioEntity voluntario) {
         try (Connection connection = sql2o.beginTransaction()) {
-            String query = "INSERT INTO voluntario (nombre, apellido, email, telefono, direccion) VALUES (:nombre, :apellido, :email, :telefono, :direccion)";
+            String query = "INSERT INTO voluntario (nombre, apellido, email, telefono, direccion, ubicacion) VALUES (:nombre, :apellido, :email, :telefono, :direccion, :ubicacion)";
             connection.createQuery(query)
                     .addParameter("nombre", voluntario.getNombre())
                     .addParameter("apellido", voluntario.getApellido())
                     .addParameter("email", voluntario.getEmail())
                     .addParameter("telefono", voluntario.getTelefono())
                     .addParameter("direccion", voluntario.getDireccion())
+                    .addParameter("ubicacion", voluntario.getUbicacion())
                     .executeUpdate();
             connection.commit();
         }
@@ -71,7 +72,7 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public void update(VoluntarioEntity voluntario) {
         try (Connection connection = sql2o.beginTransaction()) {
-            String query = "UPDATE voluntario SET nombre = :nombre, apellido = :apellido, email = :email, telefono = :telefono, direccion = :direccion WHERE id = :id";
+            String query = "UPDATE voluntario SET nombre = :nombre, apellido = :apellido, email = :email, telefono = :telefono, direccion = :direccion, ubicacion = :ubicacion WHERE id_voluntario = :id";
             connection.createQuery(query)
                     .addParameter("nombre", voluntario.getNombre())
                     .addParameter("apellido", voluntario.getApellido())
@@ -79,6 +80,7 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
                     .addParameter("telefono", voluntario.getTelefono())
                     .addParameter("direccion", voluntario.getDireccion())
                     .addParameter("id", voluntario.getId())
+                    .addParameter("ubicacion", voluntario.getUbicacion())
                     .executeUpdate();
             connection.commit();
         }
