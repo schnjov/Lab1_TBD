@@ -1,0 +1,5 @@
+spring:
+    datasource:
+        password: theyugi27
+        url: jdbc:postgresql://localhost:5432/tbd_backend
+        username: postgres

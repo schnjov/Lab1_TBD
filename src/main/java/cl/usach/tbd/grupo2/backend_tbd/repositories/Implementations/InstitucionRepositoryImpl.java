@@ -1,4 +1,4 @@
-package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
+package cl.usach.tbd.grupo2.backend_tbd.repositories.implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.InstitucionEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.InstitucionRepository;
 import java.util.List;
@@ -37,12 +37,13 @@ public class InstitucionRepositoryImpl implements InstitucionRepository {
     @Override
     public void create(InstitucionEntity institucion) {
         try (Connection connection = sql2o.beginTransaction()) {
-            String query = "INSERT INTO institucion (id_institucion, nombre, direccion, telefono) VALUES (:idInstitucion, :nombre, :direccion, :telefono)";
+            String query = "INSERT INTO institucion (id_institucion, nombre, direccion, telefono, id_usuario) VALUES (:idInstitucion, :nombre, :direccion, :telefono, :id_usuario)";
             connection.createQuery(query)
                     .addParameter("idInstitucion", institucion.getIdInstitucion())
                     .addParameter("nombre", institucion.getNombre())
                     .addParameter("direccion", institucion.getDireccion())
                     .addParameter("telefono", institucion.getTelefono())
+                    .addParameter("id_usuario",institucion.getId_usuario())
                     .executeUpdate();
             connection.commit();
         }

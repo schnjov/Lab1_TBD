@@ -1,4 +1,4 @@
-package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
+package cl.usach.tbd.grupo2.backend_tbd.repositories.implementations;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
 import cl.usach.tbd.grupo2.backend_tbd.entities.HabilidadEntity;

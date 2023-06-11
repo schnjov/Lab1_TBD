@@ -1,3 +1,11 @@
+create table usuario
+(
+    email    varchar,
+    id       SERIAL PRIMARY KEY,
+    password varchar,
+    rol      varchar
+);
+
 CREATE TABLE habilidad (
     id_habilidad SERIAL PRIMARY KEY,
     habilidad VARCHAR(255)
@@ -8,16 +16,19 @@ CREATE TABLE institucion (
     nombre VARCHAR(255),
     fecha DATE,
     direccion VARCHAR(255),
-    telefono VARCHAR(20)
+    telefono VARCHAR(20),
+    id_usuario INT,
+    FOREIGN KEY (id_usuario) REFERENCES usuario (id)
 );
 
 CREATE TABLE voluntario (
     id_voluntario SERIAL PRIMARY KEY,
     nombre VARCHAR(255),
     apellido VARCHAR(255),
-    email VARCHAR(255),
     telefono VARCHAR(20),
-    direccion VARCHAR(255)
+    direccion VARCHAR(255),
+    id_usuario INT,
+    FOREIGN KEY (id_usuario) REFERENCES usuario (id)
 );
 
 CREATE TABLE emergencia (

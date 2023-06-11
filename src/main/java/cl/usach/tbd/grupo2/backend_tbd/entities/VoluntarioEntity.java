@@ -1,38 +1,30 @@
 package cl.usach.tbd.grupo2.backend_tbd.entities;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import net.postgis.jdbc.PGgeometry;
 
-//Clase POJO de Voluntario para la tabla Voluntario de la base de datos.
+@AllArgsConstructor
+@NoArgsConstructor
 public class VoluntarioEntity {
-    private Long id;
+    private Long id_voluntario;
     private String nombre;
     private String apellido;
-    private String email;
     private String telefono;
     private String direccion;
 
+    private Long id_usuario;
+
     private PGgeometry ubicacion;
 
-    // Constructor vacío
-    public VoluntarioEntity() {}
-
-    // Constructor con parámetros
-    public VoluntarioEntity(Long id, String nombre, String apellido, String email, String telefono, String direccion) {
-        this.id = id;
-        this.nombre = nombre;
-        this.apellido = apellido;
-        this.email = email;
-        this.telefono = telefono;
-        this.direccion = direccion;
-    }
 
     // Getters y Setters
     public Long getId() {
-        return id;
+        return id_voluntario;
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id_voluntario = id;
     }
 
     public String getNombre() {
@@ -49,14 +41,6 @@ public class VoluntarioEntity {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getTelefono() {
@@ -81,5 +65,13 @@ public class VoluntarioEntity {
 
     public void setUbicacion(PGgeometry ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public Long getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
     }
 }

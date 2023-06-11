@@ -56,11 +56,10 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public void create(VoluntarioEntity voluntario) {
         try (Connection connection = sql2o.beginTransaction()) {
-            String query = "INSERT INTO voluntario (nombre, apellido, email, telefono, direccion, ubicacion) VALUES (:nombre, :apellido, :email, :telefono, :direccion, :ubicacion)";
+            String query = "INSERT INTO voluntario (nombre, apellido, telefono, direccion, ubicacion) VALUES (:nombre, :apellido, :telefono, :direccion, :ubicacion)";
             connection.createQuery(query)
                     .addParameter("nombre", voluntario.getNombre())
                     .addParameter("apellido", voluntario.getApellido())
-                    .addParameter("email", voluntario.getEmail())
                     .addParameter("telefono", voluntario.getTelefono())
                     .addParameter("direccion", voluntario.getDireccion())
                     .addParameter("ubicacion", voluntario.getUbicacion())
@@ -72,11 +71,10 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public void update(VoluntarioEntity voluntario) {
         try (Connection connection = sql2o.beginTransaction()) {
-            String query = "UPDATE voluntario SET nombre = :nombre, apellido = :apellido, email = :email, telefono = :telefono, direccion = :direccion, ubicacion = :ubicacion WHERE id_voluntario = :id";
+            String query = "UPDATE voluntario SET nombre = :nombre, apellido = :apellido, telefono = :telefono, direccion = :direccion, ubicacion = :ubicacion WHERE id_voluntario = :id";
             connection.createQuery(query)
                     .addParameter("nombre", voluntario.getNombre())
                     .addParameter("apellido", voluntario.getApellido())
-                    .addParameter("email", voluntario.getEmail())
                     .addParameter("telefono", voluntario.getTelefono())
                     .addParameter("direccion", voluntario.getDireccion())
                     .addParameter("id", voluntario.getId())

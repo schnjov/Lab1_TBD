@@ -11,6 +11,7 @@ public class InstitucionEntity {
     private Date fecha;
     private String direccion;
     private String telefono;
+    private Long id_usuario;
 
     public Long getIdInstitucion() {
         return idInstitucion;
@@ -45,5 +46,13 @@ public class InstitucionEntity {
     }
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public Long getId_usuario() {
+        return id_usuario;
+    }
+
+    public void setId_usuario(Long id_usuario) {
+        this.id_usuario = id_usuario;
     }
 }

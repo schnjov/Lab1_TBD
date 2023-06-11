@@ -1,7 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.controllers;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
-import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.EmergenciaRepositoryImpl;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.EmergenciaRepositoryImpl;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.TareaRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
