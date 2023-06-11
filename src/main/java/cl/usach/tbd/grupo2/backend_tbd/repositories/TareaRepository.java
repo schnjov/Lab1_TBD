@@ -1,6 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.repositories;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.TareaEntity;
+import net.postgis.jdbc.PGgeometry;
 
 import java.util.List;
 

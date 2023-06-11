@@ -2,6 +2,7 @@ package cl.usach.tbd.grupo2.backend_tbd.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import net.postgis.jdbc.PGgeometry;
 
 import java.util.Date;
 
@@ -15,6 +16,8 @@ public class EmergenciaEntity {
     private Date fecha;
     public Boolean activa;
     private Integer idInstitucion;
+
+    private PGgeometry ubicacion;
 
     public Long getIdEmergencia() {
         return idEmergencia;
@@ -70,5 +73,13 @@ public class EmergenciaEntity {
 
     public void setIdInstitucion(Integer idInstitucion) {
         this.idInstitucion = idInstitucion;
+    }
+
+    public PGgeometry getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(PGgeometry ubicacion) {
+        this.ubicacion = ubicacion;
     }
 }

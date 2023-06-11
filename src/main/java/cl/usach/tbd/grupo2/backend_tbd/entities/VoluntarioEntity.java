@@ -1,5 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.entities;
 
+import net.postgis.jdbc.PGgeometry;
+
 //Clase POJO de Voluntario para la tabla Voluntario de la base de datos.
 public class VoluntarioEntity {
     private Long id;
@@ -8,6 +10,8 @@ public class VoluntarioEntity {
     private String email;
     private String telefono;
     private String direccion;
+
+    private PGgeometry ubicacion;
 
     // Constructor vacío
     public VoluntarioEntity() {}
@@ -69,5 +73,13 @@ public class VoluntarioEntity {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public PGgeometry getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(PGgeometry ubicacion) {
+        this.ubicacion = ubicacion;
     }
 }

@@ -35,6 +35,12 @@ public class VoluntarioController {
         }
     }
 
+    @GetMapping
+    public ResponseEntity<List<VoluntarioEntity>> findByEmergenciaAndRadio(@RequestParam("emergencia") Long idEmergencia, @RequestParam("radio") Double radio) {
+        List<VoluntarioEntity> volunteers = voluntarioRepository.findByEmergenciaAndRadio(idEmergencia, radio);
+        return new ResponseEntity<>(volunteers, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody VoluntarioEntity voluntario) {
         voluntarioRepository.create(voluntario);

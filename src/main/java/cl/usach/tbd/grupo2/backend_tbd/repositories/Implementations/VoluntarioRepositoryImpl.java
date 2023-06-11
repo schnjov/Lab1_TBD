@@ -35,6 +35,25 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     }
 
     @Override
+    public List<VoluntarioEntity> findByEmergenciaAndRadio(Long idEmergencia, Double radio)
+    {
+        String query =
+                "SELECT DISTINCT v.* " +
+                        "FROM voluntario v " +
+                        "JOIN vol_habilidad vh ON v.id = vh.id_voluntario " +
+                        "JOIN eme_habilidad eh ON vh.id_habilidad = eh.id_habilidad " +
+                        "JOIN emergencia e ON eh.id_emergencia = e.id " +
+                        "WHERE e.id = :idEmergencia AND ST_DWithin(v.ubicacion::geography, e.ubicacion::geography, :radio)";
+
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(query)
+                    .addParameter("idEmergencia", idEmergencia)
+                    .addParameter("radio", radio)
+                    .executeAndFetch(VoluntarioEntity.class);
+        }
+    }
+
+    @Override
     public void create(VoluntarioEntity voluntario) {
         try (Connection connection = sql2o.beginTransaction()) {
             String query = "INSERT INTO voluntario (nombre, apellido, email, telefono, direccion) VALUES (:nombre, :apellido, :email, :telefono, :direccion)";

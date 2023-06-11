@@ -2,6 +2,7 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.EmergenciaRepository;
+import net.postgis.jdbc.PGgeometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
