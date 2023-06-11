@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class InstitucionEntity {
-    private Long idInstitucion;
+    private Long id_institucion;
     private String nombre;
     private Date fecha;
     private String direccion;
@@ -14,11 +14,11 @@ public class InstitucionEntity {
     private Long id_usuario;
 
     public Long getIdInstitucion() {
-        return idInstitucion;
+        return id_institucion;
     }
 
     public void setIdInstitucion(Long idInstitucion) {
-        this.idInstitucion = idInstitucion;
+        this.id_institucion = idInstitucion;
     }
 
     public String getNombre() {

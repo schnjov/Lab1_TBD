@@ -1,8 +1,6 @@
 package cl.usach.tbd.grupo2.backend_tbd.repositories;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.UsuarioEntity;
-import cl.usach.tbd.grupo2.backend_tbd.entities.VoluntarioEntity;
-import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.UserDetailsRepositoryImpl;
 
 import java.util.List;
 

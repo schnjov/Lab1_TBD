@@ -1,8 +1,10 @@
-package cl.usach.tbd.grupo2.backend_tbd.config;
+package cl.usach.tbd.grupo2.backend_tbd.config.security;
 
-import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.UserDetailsRepositoryImpl;
+import cl.usach.tbd.grupo2.backend_tbd.config.security.services.UserDetailsServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,9 +22,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").permitAll()
                         .requestMatchers("/voluntarios/**").hasRole("VOLUNTARIO")
                         .requestMatchers("/instituciones/**").hasRole("INSTITUCION")
-
-                        .anyRequest().authenticated()
-                );
+                ).csrf().disable();
 
         http
                 .formLogin(withDefaults()); // (1)
@@ -30,20 +30,22 @@ public class SecurityConfig {
                 .httpBasic(withDefaults()); // (1)
         return http.build();
     }
-  /* (1) By default, Spring Security form login/http basic auth are enabled.
-  However, as soon as any servlet-based configuration is provided,
-  form based login or/and http basic auth must be explicitly provided.
-  */
 
     // Autenticacion con UserDetailsService
     @Bean
-    UserDetailsRepositoryImpl userDetailsService() {
-        return new UserDetailsRepositoryImpl();
+    UserDetailsServiceImpl userDetailsService() {
+        return new UserDetailsServiceImpl();
     }
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    AuthenticationManager authenticationManager(AuthenticationConfiguration
+                                                        authenticationConfiguration) throws Exception {
+        return authenticationConfiguration.getAuthenticationManager();
     }
 
 }
