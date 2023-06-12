@@ -24,11 +24,11 @@ public class SecurityConfig {
     SecurityFilterChain web(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeHttpRequests((authorize) -> authorize
-
-                        .requestMatchers("/api/**").permitAll()
+                        .requestMatchers("/api/login","/api/register").permitAll()
                         .requestMatchers("/voluntarios/**").hasRole("VOLUNTARIO")
                         .requestMatchers("/instituciones/**").hasRole("INSTITUCION")
-                ).cors(withDefaults())
+                        .anyRequest().hasAnyRole("VOLUNTARIO","INSTITUCION")
+                ).cors().disable()
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)

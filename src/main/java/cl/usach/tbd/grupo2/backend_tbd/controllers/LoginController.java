@@ -4,6 +4,9 @@ import cl.usach.tbd.grupo2.backend_tbd.config.security.model.AuthenticationReq;
 import cl.usach.tbd.grupo2.backend_tbd.config.security.model.TokenInfo;
 import cl.usach.tbd.grupo2.backend_tbd.config.security.services.JwtUtilService;
 import cl.usach.tbd.grupo2.backend_tbd.config.security.services.UserDetailsServiceImpl;
+import cl.usach.tbd.grupo2.backend_tbd.entities.UsuarioEntity;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.UsuarioRepository;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.UsuarioRepositoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.Map;
-
-@RestController
+@CrossOrigin("*")
+@RestController()
 public class LoginController {
     private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
     @Autowired
@@ -33,19 +33,8 @@ public class LoginController {
     @Autowired
     private JwtUtilService jwtUtilService;
 
-    @GetMapping("/mensaje")
-    public ResponseEntity<?> getMensaje() {
-        logger.info("Obteniendo el mensaje");
-
-        var auth =  SecurityContextHolder.getContext().getAuthentication();
-        logger.info("Datos del Usuario: {}", auth.getPrincipal());
-        logger.info("Datos de los Roles {}", auth.getAuthorities());
-        logger.info("Esta autenticado {}", auth.isAuthenticated());
-
-        Map<String, String> mensaje = new HashMap<>();
-        mensaje.put("contenido", "Hola Peru");
-        return ResponseEntity.ok(mensaje);
-    }
+    @Autowired
+    private UsuarioRepositoryImpl usuarioRepository;
 
     @PostMapping("/api/login")
     public ResponseEntity<TokenInfo> getToken(@RequestBody AuthenticationReq authenticationReq){
@@ -60,6 +49,24 @@ public class LoginController {
         final String jwt = jwtUtilService.generateToken(userDetails);
 
         return ResponseEntity.ok(new TokenInfo(jwt));
+    }
+
+    @PostMapping("api/register")
+    public ResponseEntity<TokenInfo> createUser(@RequestBody UsuarioEntity usuario){
+        try{
+            usuarioRepository.create(usuario);
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(usuario.getEmail(),
+                            usuario.getPassword()));
+            final UserDetails userDetails = usuarioDetailsService.loadUserByUsername(
+                    usuario.getEmail());
+
+            final String jwt = jwtUtilService.generateToken(userDetails);
+
+            return ResponseEntity.ok(new TokenInfo(jwt));
+        }catch (RuntimeException e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 

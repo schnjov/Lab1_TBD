@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/emergencias")
+@RequestMapping("api/emergencias")
 public class EmergenciaController {
     @Autowired
     private EmergenciaRepositoryImpl emergenciaRepository;

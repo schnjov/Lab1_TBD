@@ -1,5 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.config.security.services;
 
+import cl.usach.tbd.grupo2.backend_tbd.entities.UsuarioEntity;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.UsuarioRepositoryImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -7,11 +9,15 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtUtilService {
+    @Autowired
+    private UsuarioRepositoryImpl usuarioRepository;
     private static final String JWT_SECRET_KEY = "RVNUQUVTTlVFU1RBQ0xBVkVNVVlTRUNSRVRBUVVFTkFESUVERUJFUklBU0FCRVI=";
 
     public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 60 * (long) 8; // 8 Horas
@@ -38,9 +44,11 @@ public class JwtUtilService {
 
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
+        UsuarioEntity usuario = usuarioRepository.getByEmail(userDetails.getUsername());
         // Agregando informacion adicional como "claim"
         var rol = userDetails.getAuthorities().stream().toList().get(0);
-        claims.put("rol", rol);
+        claims.put("roles", rol);
+        claims.put("id_usuario",usuario.getId());
         return createToken(claims, userDetails.getUsername());
     }
 

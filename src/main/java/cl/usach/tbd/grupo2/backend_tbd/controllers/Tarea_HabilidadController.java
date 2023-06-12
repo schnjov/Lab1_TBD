@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tarea_habilidades")
+@RequestMapping("api/tarea_habilidades")
 public class Tarea_HabilidadController {
     @Autowired
     private Tarea_HabilidadRepositoryImpl tarea_habilidadRepository;

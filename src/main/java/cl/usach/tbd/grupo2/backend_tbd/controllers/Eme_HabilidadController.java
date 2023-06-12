@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/eme_habilidades")
+@RequestMapping("api/eme_habilidades")
 public class Eme_HabilidadController {
     @Autowired
     private Eme_HabilidadRepositoryImpl eme_habilidadRepository;

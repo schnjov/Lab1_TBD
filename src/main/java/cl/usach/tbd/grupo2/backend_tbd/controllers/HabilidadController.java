@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/habilidades")
+@RequestMapping("api/habilidades")
 public class HabilidadController {
     @Autowired
     private HabilidadRepositoryImpl habilidadRepository;
