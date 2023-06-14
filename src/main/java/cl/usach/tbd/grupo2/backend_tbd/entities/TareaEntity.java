@@ -6,40 +6,40 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TareaEntity {
-    private Long idTarea;
-    private String asuntoTarea;
-    private Long idEmergencia;
-    private Boolean estadoTarea; //ver si se mantiene como entidad aparte
+    private Long id_tarea;
+    private String asunto_tarea;
+    private Long id_emergencia;
+    private Boolean estado_tarea; //ver si se mantiene como entidad aparte
 
-    public Long getIdTarea() {
-        return idTarea;
+    public Long getId_tarea() {
+        return id_tarea;
     }
 
-    public void setIdTarea(Long idTarea) {
-        this.idTarea = idTarea;
+    public void setId_tarea(Long idTarea) {
+        this.id_tarea = idTarea;
     }
 
-    public String getAsuntoTarea() {
-        return asuntoTarea;
+    public String getAsunto_tarea() {
+        return asunto_tarea;
     }
 
-    public void setAsuntoTarea(String asuntoTarea) {
-        this.asuntoTarea = asuntoTarea;
+    public void setAsunto_tarea(String asuntoTarea) {
+        this.asunto_tarea = asuntoTarea;
     }
 
-    public Long getIdEmergencia() {
-        return idEmergencia;
+    public Long getId_emergencia() {
+        return id_emergencia;
     }
 
-    public void setIdEmergencia(Long idEmergencia) {
-        this.idEmergencia = idEmergencia;
+    public void setId_emergencia(Long idEmergencia) {
+        this.id_emergencia = idEmergencia;
     }
 
-    public Boolean getEstadoTarea() {
-        return estadoTarea;
+    public Boolean getEstado_tarea() {
+        return estado_tarea;
     }
 
-    public void setEstadoTarea(Boolean estadoTarea) {
-        this.estadoTarea = estadoTarea;
+    public void setEstado_tarea(Boolean estadoTarea) {
+        this.estado_tarea = estadoTarea;
     }
 }

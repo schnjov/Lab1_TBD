@@ -6,40 +6,40 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RankingEntity {
-    private Long idRanking;
-    private Long idTarea;
-    private Long idVoluntario;
-    private Long Puntaje;
+    private Long id_ranking;
+    private Long id_tarea;
+    private Long id_voluntario;
+    private Long puntaje;
 
-    public Long getIdRanking() {
-        return idRanking;
+    public Long getId_ranking() {
+        return id_ranking;
     }
 
-    public void setIdRanking(Long idRanking) {
-        this.idRanking = idRanking;
+    public void setId_ranking(Long idRanking) {
+        this.id_ranking = idRanking;
     }
 
-    public Long getIdTarea() {
-        return idTarea;
+    public Long getId_tarea() {
+        return id_tarea;
     }
 
-    public void setIdTarea(Long idTarea) {
-        this.idTarea = idTarea;
+    public void setId_tarea(Long idTarea) {
+        this.id_tarea = idTarea;
     }
 
-    public Long getIdVoluntario() {
-        return idVoluntario;
+    public Long getId_voluntario() {
+        return id_voluntario;
     }
 
-    public void setIdVoluntario(Long idVoluntario) {
-        this.idVoluntario = idVoluntario;
+    public void setId_voluntario(Long idVoluntario) {
+        this.id_voluntario = idVoluntario;
     }
 
     public Long getPuntaje() {
-        return Puntaje;
+        return puntaje;
     }
 
     public void setPuntaje(Long puntaje) {
-        Puntaje = puntaje;
+        this.puntaje = puntaje;
     }
 }

@@ -6,22 +6,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class HabilidadEntity {
-    private Long idHabilidad;
-    private String Habilidad;
+    private Long id_habilidad;
+    private String habilidad;
 
-    public Long getIdHabilidad() {
-        return idHabilidad;
+    public Long getId_habilidad() {
+        return id_habilidad;
     }
 
-    public void setIdHabilidad(Long idHabilidad) {
-        this.idHabilidad = idHabilidad;
+    public void setId_habilidad(Long idHabilidad) {
+        this.id_habilidad = idHabilidad;
     }
 
     public String getHabilidad() {
-        return Habilidad;
+        return habilidad;
     }
 
     public void setHabilidad(String habilidad) {
-        Habilidad = habilidad;
+        this.habilidad = habilidad;
     }
 }

@@ -59,7 +59,7 @@ public class Eme_HabilidadController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody Eme_HabilidadEntity eme_habilidad) {
-        eme_habilidad.setIdEmeHabilidad(id);
+        eme_habilidad.setId_eme_habilidad(id);
         eme_habilidadRepository.update(eme_habilidad);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

@@ -49,7 +49,7 @@ public class RankingController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody RankingEntity ranking) {
-        ranking.setIdRanking(id);
+        ranking.setId_ranking(id);
         rankingRepository.update(ranking);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

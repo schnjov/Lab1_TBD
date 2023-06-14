@@ -9,22 +9,22 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 public class EmergenciaEntity {
-    private Long idEmergencia;
+    private Long id_emergencia;
     private String asunto;
     private String descripcion;
     private String direccion;
     private Date fecha;
     public Boolean activa;
-    private Integer idInstitucion;
+    private Integer id_institucion;
     private Integer region;
     private PGgeometry ubicacion;
 
-    public Long getIdEmergencia() {
-        return idEmergencia;
+    public Long getId_emergencia() {
+        return id_emergencia;
     }
 
-    public void setIdEmergencia(Long idEmergencia) {
-        this.idEmergencia = idEmergencia;
+    public void setId_emergencia(Long id_emergencia) {
+        this.id_emergencia = id_emergencia;
     }
 
     public String getAsunto() {
@@ -67,14 +67,13 @@ public class EmergenciaEntity {
         this.activa = activa;
     }
 
-    public Integer getIdInstitucion() {
-        return idInstitucion;
+    public Integer getId_institucion() {
+        return id_institucion;
     }
 
-    public void setIdInstitucion(Integer idInstitucion) {
-        this.idInstitucion = idInstitucion;
+    public void setId_institucion(Integer id_institucion) {
+        this.id_institucion = id_institucion;
     }
-
 
     public Integer getRegion() {
         return this.region;
@@ -91,4 +90,6 @@ public class EmergenciaEntity {
     public void setUbicacion(PGgeometry ubicacion) {
         this.ubicacion = ubicacion;
     }
+
+
 }

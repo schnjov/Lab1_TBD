@@ -1,9 +1,9 @@
-package cl.usach.tbd.grupo2.backend_tbd.repositories.implementations;
+package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
-import cl.usach.tbd.grupo2.backend_tbd.entities.HabilidadEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.EmergenciaRepository;
-import net.postgis.jdbc.PGgeometry;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
@@ -16,6 +16,7 @@ import java.util.List;
 public class EmergenciaRepositoryImpl implements EmergenciaRepository {
     @Autowired
     private Sql2o sql2o;
+    private final Logger logger = LoggerFactory.getLogger(EmergenciaRepositoryImpl.class);
 
     @Override
     public List<EmergenciaEntity> findAll() {
@@ -23,7 +24,9 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
         String sqlQuery = "SELECT * FROM emergencia ORDER BY id_emergencia ASC";
         try (Connection con = sql2o.open()) {
             emergencias = con.createQuery(sqlQuery).executeAndFetch(EmergenciaEntity.class);
+            logger.info("Cantidad de emergencias: " + emergencias.size());
         } catch (Exception e) {
+            logger.error(e.getMessage());
             // Conexion a sql ha fallado
 
         }
@@ -40,7 +43,7 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
                     .addParameter("descripcion", emergencia.getDescripcion())
                     .addParameter("direccion", emergencia.getDireccion())
                     .addParameter("activa", emergencia.getActiva())
-                    .addParameter("id_institucion", emergencia.getIdInstitucion())
+                    .addParameter("id_institucion", emergencia.getId_institucion())
                     .addParameter("region", emergencia.getRegion())
                     .addParameter("ubicacion", emergencia.getUbicacion())
                     .executeUpdate();
@@ -77,13 +80,13 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
         String sqlQuery = "UPDATE emergencia SET asunto = :asunto, descripcion = :descripcion, direccion = :direccion, fecha =:fecha, activa = :activa, id_institucion = :idInstitucion, region = :region, ubicacion = :ubicacion WHERE id_emergencia = :idEmergencia";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sqlQuery)
-                    .addParameter("idEmergencia", emergencia.getIdEmergencia())
+                    .addParameter("idEmergencia", emergencia.getId_emergencia())
                     .addParameter("asunto", emergencia.getAsunto())
                     .addParameter("descripcion", emergencia.getDescripcion())
                     .addParameter("direccion", emergencia.getDireccion())
                     .addParameter("fecha", emergencia.getFecha())
                     .addParameter("activa", emergencia.getActiva())
-                    .addParameter("idInstitucion", emergencia.getIdInstitucion())
+                    .addParameter("idInstitucion", emergencia.getId_institucion())
                     .addParameter("region", emergencia.getRegion())
                     .addParameter("ubicacion", emergencia.getUbicacion())
                     .executeUpdate();
@@ -92,7 +95,7 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return findById(emergencia.getIdEmergencia());
+        return findById(emergencia.getId_emergencia());
     }
 
     @Override

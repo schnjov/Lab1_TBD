@@ -6,7 +6,6 @@ import cl.usach.tbd.grupo2.backend_tbd.repositories.TareaRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.postgis.jdbc.PGgeometry;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
@@ -22,10 +21,10 @@ public class TareaRepositoryImpl implements TareaRepository {
         String sqlQuery = "INSERT INTO tarea (id_tarea, asunto_tarea, id_emergencia, estado_tarea) VALUES (:idTarea, :asuntoTarea, :idEmergencia, :estadoTarea)";
         try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("idTarea", tarea.getIdTarea())
-                    .addParameter("asuntoTarea", tarea.getAsuntoTarea())
-                    .addParameter("idEmergencia", tarea.getIdEmergencia())
-                    .addParameter("estadoTarea", tarea.getEstadoTarea())
+                    .addParameter("idTarea", tarea.getId_tarea())
+                    .addParameter("asuntoTarea", tarea.getAsunto_tarea())
+                    .addParameter("idEmergencia", tarea.getId_emergencia())
+                    .addParameter("estadoTarea", tarea.getEstado_tarea())
                     .executeUpdate();
         } catch (Exception e) {
             System.out.println("Error: " + e);
@@ -97,10 +96,10 @@ public class TareaRepositoryImpl implements TareaRepository {
         String sqlQuery = "UPDATE tarea SET asunto_tarea = :asuntoTarea, id_emergencia = :idEmergencia, estado_tarea = :estadoTarea WHERE id_tarea = :idTarea";
         try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("asuntoTarea", tarea.getAsuntoTarea())
-                    .addParameter("idEmergencia", tarea.getIdEmergencia())
-                    .addParameter("estadoTarea", tarea.getEstadoTarea())
-                    .addParameter("idTarea", tarea.getIdTarea())
+                    .addParameter("asuntoTarea", tarea.getAsunto_tarea())
+                    .addParameter("idEmergencia", tarea.getId_emergencia())
+                    .addParameter("estadoTarea", tarea.getEstado_tarea())
+                    .addParameter("idTarea", tarea.getId_tarea())
                     .executeUpdate();
         } catch (Exception e) {
             System.out.println("Error: " + e);

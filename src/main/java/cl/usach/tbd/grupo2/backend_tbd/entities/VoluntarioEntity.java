@@ -12,9 +12,7 @@ public class VoluntarioEntity {
     private String apellido;
     private String telefono;
     private String direccion;
-
     private Long id_usuario;
-
     private PGgeometry ubicacion;
 
 

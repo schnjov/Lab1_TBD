@@ -1,31 +1,31 @@
 package cl.usach.tbd.grupo2.backend_tbd.entities;
 
 public class Vol_HabilidadEntity {
-    private Long idVolHabilidad;
-    private Long idVoluntario;
-    private Long idHabilidad;
+    private Long id_vol_habilidad;
+    private Long id_voluntario;
+    private Long id_habilidad;
 
     public Long getIdVolHabilidad() {
-        return idVolHabilidad;
+        return id_vol_habilidad;
     }
 
     public void setIdVolHabilidad(Long idVolHabilidad) {
-        this.idVolHabilidad = idVolHabilidad;
+        this.id_vol_habilidad = idVolHabilidad;
     }
 
     public Long getIdVoluntario() {
-        return idVoluntario;
+        return id_voluntario;
     }
 
     public void setIdVoluntario(Long idVoluntario) {
-        this.idVoluntario = idVoluntario;
+        this.id_voluntario = idVoluntario;
     }
 
     public Long getIdHabilidad() {
-        return idHabilidad;
+        return id_habilidad;
     }
 
     public void setIdHabilidad(Long idHabilidad) {
-        this.idHabilidad = idHabilidad;
+        this.id_habilidad = idHabilidad;
     }
 }

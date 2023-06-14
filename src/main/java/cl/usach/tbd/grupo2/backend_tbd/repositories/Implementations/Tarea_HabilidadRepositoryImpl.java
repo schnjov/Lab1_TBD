@@ -1,6 +1,5 @@
 package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 
-import cl.usach.tbd.grupo2.backend_tbd.entities.RankingEntity;
 import cl.usach.tbd.grupo2.backend_tbd.entities.Tarea_HabilidadEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Tarea_HabilidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +31,9 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
         String sqlQuery = "INSERT INTO tarea_habilidad(id_tarea_habilidad, id_tarea, id_habilidad) VALUES (:idTareaHabilidad, :idTarea, :idHabilidad)";
         try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("idTareaHabilidad", tarea_habilidad.getIdTareaHabilidad())
-                    .addParameter("idTarea", tarea_habilidad.getIdTarea())
-                    .addParameter("idHabilidad", tarea_habilidad.getIdHabilidad())
+                    .addParameter("idTareaHabilidad", tarea_habilidad.getId_tarea_habilidad())
+                    .addParameter("idTarea", tarea_habilidad.getId_tarea())
+                    .addParameter("idHabilidad", tarea_habilidad.getId_habilidad())
                     .executeUpdate();
         } catch (Exception e) {
             System.out.println("Error: " + e);
@@ -83,9 +82,9 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
         String sqlQuery = "UPDATE tarea_habilidad SET id_tarea = :idTarea, id_habilidad = :idHabilidad WHERE id_tarea_habilidad = :idTareaHabilidad";
         try (Connection con = sql2o.open()) {
             con.createQuery(sqlQuery)
-                    .addParameter("idTarea", tarea_habilidad.getIdTarea())
-                    .addParameter("idHabilidad", tarea_habilidad.getIdHabilidad())
-                    .addParameter("idTareaHabilidad", tarea_habilidad.getIdTareaHabilidad())
+                    .addParameter("idTarea", tarea_habilidad.getId_tarea())
+                    .addParameter("idHabilidad", tarea_habilidad.getId_habilidad())
+                    .addParameter("idTareaHabilidad", tarea_habilidad.getId_tarea_habilidad())
                     .executeUpdate();
         } catch (Exception e) {
             System.out.println("Error: " + e);

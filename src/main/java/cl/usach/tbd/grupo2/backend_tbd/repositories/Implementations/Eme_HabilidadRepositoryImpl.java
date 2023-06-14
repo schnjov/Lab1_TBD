@@ -33,9 +33,9 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
         String sqlQuery = "INSERT INTO eme_habilidad (id_eme_habilidad, id_emergencia, id_habilidad) VALUES (:idEmeHabilidad, :idEmergencia, :idHabilidad)";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sqlQuery)
-                    .addParameter("idEmeHabilidad", eme_habilidad.getIdEmeHabilidad())
-                    .addParameter("idEmergencia", eme_habilidad.getIdEmergencia())
-                    .addParameter("idHabilidad", eme_habilidad.getIdHabilidad())
+                    .addParameter("idEmeHabilidad", eme_habilidad.getId_eme_habilidad())
+                    .addParameter("idEmergencia", eme_habilidad.getId_emergencia())
+                    .addParameter("idHabilidad", eme_habilidad.getId_habilidad())
                     .executeUpdate();
             con.commit();
         }
@@ -84,9 +84,9 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
         String sqlQuery = "UPDATE eme_habilidad SET id_emergencia = :idEmergencia, id_habilidad = :idHabilidad WHERE id_eme_habilidad = :idEmeHabilidad";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
-                    .addParameter("idEmergencia", eme_habilidad.getIdEmergencia())
-                    .addParameter("idHabilidad", eme_habilidad.getIdHabilidad())
-                    .addParameter("idEmeHabilidad", eme_habilidad.getIdEmeHabilidad())
+                    .addParameter("idEmergencia", eme_habilidad.getId_emergencia())
+                    .addParameter("idHabilidad", eme_habilidad.getId_habilidad())
+                    .addParameter("idEmeHabilidad", eme_habilidad.getId_eme_habilidad())
                     .executeUpdate();
             con.commit();
         }

@@ -6,32 +6,32 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Tarea_HabilidadEntity {
-    private Long idTareaHabilidad;
-    private Long idTarea;
-    private Long idHabilidad;
+    private Long id_tarea_habilidad;
+    private Long id_tarea;
+    private Long id_habilidad;
 
-    public Long getIdTareaHabilidad() {
-        return idTareaHabilidad;
+    public Long getId_tarea_habilidad() {
+        return id_tarea_habilidad;
     }
 
-    public void setIdTareaHabilidad(Long idTareaHabilidad) {
-        this.idTareaHabilidad = idTareaHabilidad;
+    public void setId_tarea_habilidad(Long idTareaHabilidad) {
+        this.id_tarea_habilidad = idTareaHabilidad;
     }
 
-    public Long getIdTarea() {
-        return idTarea;
+    public Long getId_tarea() {
+        return id_tarea;
     }
 
-    public void setIdTarea(Long idTarea) {
-        this.idTarea = idTarea;
+    public void setId_tarea(Long idTarea) {
+        this.id_tarea = idTarea;
     }
 
-    public Long getIdHabilidad() {
-        return idHabilidad;
+    public Long getId_habilidad() {
+        return id_habilidad;
     }
 
-    public void setIdHabilidad(Long idHabilidad) {
-        this.idHabilidad = idHabilidad;
+    public void setId_habilidad(Long idHabilidad) {
+        this.id_habilidad = idHabilidad;
     }
 
 }

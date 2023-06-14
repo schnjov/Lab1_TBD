@@ -6,31 +6,31 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Eme_HabilidadEntity {
-    private Long idEmeHabilidad;
-    private Long idEmergencia;
-    private Long idHabilidad;
+    private Long id_eme_habilidad;
+    private Long id_emergencia;
+    private Long id_habilidad;
 
-    public Long getIdEmeHabilidad() {
-        return idEmeHabilidad;
+    public Long getId_eme_habilidad() {
+        return id_eme_habilidad;
     }
 
-    public void setIdEmeHabilidad(Long idEmeHabilidad) {
-        this.idEmeHabilidad = idEmeHabilidad;
+    public void setId_eme_habilidad(Long idEmeHabilidad) {
+        this.id_eme_habilidad = idEmeHabilidad;
     }
 
-    public Long getIdEmergencia() {
-        return idEmergencia;
+    public Long getId_emergencia() {
+        return id_emergencia;
     }
 
-    public void setIdEmergencia(Long idEmergencia) {
-        this.idEmergencia = idEmergencia;
+    public void setId_emergencia(Long idEmergencia) {
+        this.id_emergencia = idEmergencia;
     }
 
-    public Long getIdHabilidad() {
-        return idHabilidad;
+    public Long getId_habilidad() {
+        return id_habilidad;
     }
 
-    public void setIdHabilidad(Long idHabilidad) {
-        this.idHabilidad = idHabilidad;
+    public void setId_habilidad(Long idHabilidad) {
+        this.id_habilidad = idHabilidad;
     }
 }

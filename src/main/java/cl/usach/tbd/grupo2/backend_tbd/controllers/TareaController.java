@@ -59,7 +59,7 @@ public class TareaController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody TareaEntity tarea) {
-        tarea.setIdTarea(id);
+        tarea.setId_tarea(id);
         tareaRepository.update(tarea);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

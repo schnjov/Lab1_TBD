@@ -1,6 +1,5 @@
 package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 
-import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
 import cl.usach.tbd.grupo2.backend_tbd.entities.RankingEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.RankingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,9 +43,9 @@ public class RankingRepositoryImpl implements RankingRepository {
         String sqlQuery = "INSERT INTO ranking (id_ranking, id_tarea, id_voluntario, puntaje) VALUES (:idRanking, :idTarea, :idVoluntario, :puntaje)";
         try (Connection con = sql2o.beginTransaction()) {
             con.createQuery(sqlQuery)
-                    .addParameter("idRanking", ranking.getIdRanking())
-                    .addParameter("idTarea", ranking.getIdTarea())
-                    .addParameter("idVoluntario", ranking.getIdVoluntario())
+                    .addParameter("idRanking", ranking.getId_ranking())
+                    .addParameter("idTarea", ranking.getId_tarea())
+                    .addParameter("idVoluntario", ranking.getId_voluntario())
                     .addParameter("puntaje", ranking.getPuntaje())
                     .executeUpdate();
             con.commit();
@@ -71,9 +70,9 @@ public class RankingRepositoryImpl implements RankingRepository {
         String sqlQuery = "UPDATE ranking SET id_tarea = :idTarea, id_voluntario = :idVoluntario, puntaje = :puntaje WHERE id_ranking = :idRanking";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
-                    .addParameter("idRanking", ranking.getIdRanking())
-                    .addParameter("idTarea", ranking.getIdTarea())
-                    .addParameter("idVoluntario", ranking.getIdVoluntario())
+                    .addParameter("idRanking", ranking.getId_ranking())
+                    .addParameter("idTarea", ranking.getId_tarea())
+                    .addParameter("idVoluntario", ranking.getId_voluntario())
                     .addParameter("puntaje", ranking.getPuntaje())
                     .executeUpdate();
             con.commit();

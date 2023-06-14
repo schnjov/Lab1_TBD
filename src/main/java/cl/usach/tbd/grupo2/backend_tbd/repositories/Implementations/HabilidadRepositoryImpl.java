@@ -34,7 +34,7 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
         String sqlQuery = "INSERT INTO habilidad (id_habilidad, habilidad) VALUES (:idHabilidad, :habilidad)";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
-                    .addParameter("idHabilidad", habilidad.getIdHabilidad())
+                    .addParameter("idHabilidad", habilidad.getId_habilidad())
                     .addParameter("habilidad", habilidad.getHabilidad())
                     .executeUpdate();
             con.commit();
@@ -62,7 +62,7 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
         String sqlQuery = "UPDATE habilidad SET habilidad = :habilidad WHERE id_habilidad = :idHabilidad";
         try (Connection con = sql2o.beginTransaction()){
             con.createQuery(sqlQuery)
-                    .addParameter("idHabilidad", habilidad.getIdHabilidad())
+                    .addParameter("idHabilidad", habilidad.getId_habilidad())
                     .addParameter("habilidad", habilidad.getHabilidad())
                     .executeUpdate();
             con.commit();
