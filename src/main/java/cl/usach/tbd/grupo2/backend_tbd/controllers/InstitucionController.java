@@ -1,7 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.controllers;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.InstitucionEntity;
-import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.InstitucionRepositoryImpl;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.InstitucionRepositoryImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

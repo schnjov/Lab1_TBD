@@ -1,7 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.config.security.services;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.UsuarioEntity;
-import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.UsuarioRepositoryImpl;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.UsuarioRepositoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

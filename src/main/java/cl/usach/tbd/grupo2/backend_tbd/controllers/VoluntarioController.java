@@ -2,7 +2,7 @@ package cl.usach.tbd.grupo2.backend_tbd.controllers;
 
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.VoluntarioEntity;
-import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.VoluntarioRepositoryImpl;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.VoluntarioRepositoryImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

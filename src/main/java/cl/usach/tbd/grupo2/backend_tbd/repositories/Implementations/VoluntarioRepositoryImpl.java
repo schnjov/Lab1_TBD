@@ -1,4 +1,4 @@
-package cl.usach.tbd.grupo2.backend_tbd.repositories.implementations;
+package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.VoluntarioEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.VoluntarioRepository;

@@ -1,7 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.config.security.services;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.UsuarioEntity;
-import cl.usach.tbd.grupo2.backend_tbd.repositories.implementations.UsuarioRepositoryImpl;
+import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.UsuarioRepositoryImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
