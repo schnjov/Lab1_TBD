@@ -110,4 +110,31 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void cambiarEstado(Long id) {
+        String sqlQuery = "UPDATE emergencia SET activa = NOT activa WHERE id_emergencia = :idEmergencia";
+        try (Connection con = sql2o.beginTransaction()){
+            con.createQuery(sqlQuery)
+                    .addParameter("idEmergencia", id)
+                    .executeUpdate();
+            con.commit();
+        }catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public int countTareasByEmergencia(Long id) {
+        String sqlQuery = "SELECT obtener_total_tareas_activas(:id)";
+        try (Connection con = sql2o.open()) {
+            return con.createQuery(sqlQuery)
+                    .addParameter("id", id)
+                    .executeScalar(Integer.class);
+        } catch (Exception e) {
+            System.out.println("Error: " + e);
+            return 0;
+        }
+    }
+
 }

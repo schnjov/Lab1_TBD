@@ -3,6 +3,8 @@ package cl.usach.tbd.grupo2.backend_tbd.controllers;
 import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.EmergenciaRepositoryImpl;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.TareaRepositoryImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ public class EmergenciaController {
     @Autowired
     private TareaRepositoryImpl tareaRepository;
 
+    private final Logger logger = LoggerFactory.getLogger(EmergenciaController.class);
     @GetMapping
     public ResponseEntity<List<EmergenciaEntity>> findAll() {
         List<EmergenciaEntity> emergencias = emergenciaRepository.findAll();
@@ -35,11 +38,6 @@ public class EmergenciaController {
         }
     }
 
-    @GetMapping("/{idEmergencia}/count_tareas_activas")
-    public ResponseEntity<Integer> countTareasActivasByEmergencia(@PathVariable Long idEmergencia) {
-        int count = tareaRepository.countTareasActivasByEmergencia(idEmergencia);
-        return new ResponseEntity<>(count, HttpStatus.OK);
-    }
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody EmergenciaEntity emergencia) {
@@ -54,9 +52,24 @@ public class EmergenciaController {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
+    @PutMapping("/cambiar/estado/{id}")
+        public ResponseEntity<Void> cambiarEstado(@PathVariable Long id) {
+        emergenciaRepository.cambiarEstado(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    @GetMapping("/count/{id}")
+    public ResponseEntity<Integer> countTareasByEmergencia(@PathVariable Long id) {
+        int count = emergenciaRepository.countTareasByEmergencia(id);
+        logger.info("count: " + count);
+        return new ResponseEntity<>(count, HttpStatus.OK);
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         emergenciaRepository.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

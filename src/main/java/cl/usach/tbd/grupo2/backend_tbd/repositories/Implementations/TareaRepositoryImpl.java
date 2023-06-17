@@ -81,17 +81,6 @@ public class TareaRepositoryImpl implements TareaRepository {
     }
 
     @Override
-    public int countTareasActivasByEmergencia(long idEmergencia)
-    {
-        String sqlQuery = "SELECT COUNT(*) FROM tarea WHERE id_emergencia = :idEmergencia AND estado_tarea = TRUE";
-        try (Connection con = sql2o.open()) {
-            return con.createQuery(sqlQuery)
-                    .addParameter("idEmergencia", idEmergencia)
-                    .executeScalar(Integer.class);
-        }
-    }
-
-    @Override
     public void update(TareaEntity tarea) {
         String sqlQuery = "UPDATE tarea SET asunto_tarea = :asuntoTarea, id_emergencia = :idEmergencia, estado_tarea = :estadoTarea WHERE id_tarea = :idTarea";
         try (Connection con = sql2o.open()) {
