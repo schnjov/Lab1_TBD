@@ -9,7 +9,7 @@ public class TareaEntity {
     private Long id_tarea;
     private String asunto_tarea;
     private Long id_emergencia;
-    private Boolean estado_tarea; //ver si se mantiene como entidad aparte
+    private Boolean estado_tarea;
 
     public Long getId_tarea() {
         return id_tarea;

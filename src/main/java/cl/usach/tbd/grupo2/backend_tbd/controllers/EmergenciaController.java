@@ -1,6 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.controllers;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.EmergenciaEntity;
+import cl.usach.tbd.grupo2.backend_tbd.entities.TareaEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.EmergenciaRepositoryImpl;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations.TareaRepositoryImpl;
 import org.slf4j.Logger;
@@ -17,9 +18,6 @@ import java.util.List;
 public class EmergenciaController {
     @Autowired
     private EmergenciaRepositoryImpl emergenciaRepository;
-
-    @Autowired
-    private TareaRepositoryImpl tareaRepository;
 
     private final Logger logger = LoggerFactory.getLogger(EmergenciaController.class);
     @GetMapping
@@ -38,6 +36,16 @@ public class EmergenciaController {
         }
     }
 
+    @GetMapping("/byTarea/{tareaId}")
+    public ResponseEntity<EmergenciaEntity> findByTarea(@PathVariable Long tareaId) {
+        EmergenciaEntity emergencia = emergenciaRepository.findByTarea(tareaId);
+
+        if (emergencia != null) {
+            return new ResponseEntity<>(emergencia, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody EmergenciaEntity emergencia) {
