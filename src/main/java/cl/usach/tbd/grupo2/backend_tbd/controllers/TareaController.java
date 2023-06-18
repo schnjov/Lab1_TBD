@@ -44,11 +44,7 @@ public class TareaController {
     @GetMapping("/region/{region}")
     public ResponseEntity<List<TareaEntity>> findByRegion(@PathVariable int region) {
         List<TareaEntity> tareas = tareaRepository.findByRegion(region);
-        if (!tareas.isEmpty()) {
-            return new ResponseEntity<>(tareas, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        return new ResponseEntity<>(tareas, HttpStatus.OK);
     }
 
     @PostMapping

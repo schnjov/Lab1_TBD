@@ -1,5 +1,7 @@
 package cl.usach.tbd.grupo2.backend_tbd.entities;
 
+import cl.usach.tbd.grupo2.backend_tbd.serializers.PGgeometrySerializer;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import net.postgis.jdbc.PGgeometry;
@@ -17,6 +19,8 @@ public class EmergenciaEntity {
     public Boolean activa;
     private Integer id_institucion;
     private Integer region;
+
+    @JsonSerialize(using = PGgeometrySerializer.class)
     private PGgeometry ubicacion;
 
     public Long getId_emergencia() {
