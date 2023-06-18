@@ -36,7 +36,7 @@ public class EmergenciaController {
         }
     }
 
-    @GetMapping("/byTarea/{tareaId}")
+    @GetMapping("/ByTarea/{tareaId}")
     public ResponseEntity<EmergenciaEntity> findByTarea(@PathVariable Long tareaId) {
         EmergenciaEntity emergencia = emergenciaRepository.findByTarea(tareaId);
 
