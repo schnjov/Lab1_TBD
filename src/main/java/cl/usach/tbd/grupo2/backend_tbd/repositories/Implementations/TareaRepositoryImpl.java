@@ -73,7 +73,7 @@ public class TareaRepositoryImpl implements TareaRepository {
     @Override
     public List<TareaEntity> findByRegion(int region) {
         try (Connection connection = sql2o.open()) {
-            String query = "SELECT t.* FROM tarea t INNER JOIN emergencia e ON t.id_emergencia = e.id_emergencia WHERE e.region = :region";
+            String query = "SELECT t.* FROM tarea t INNER JOIN emergencia e ON t.id_emergencia = e.id_emergencia WHERE e.region = :region AND ST_Intersects(t.ubicacion, e.region_geometry)";
             return connection.createQuery(query)
                     .addParameter("region", region)
                     .executeAndFetch(TareaEntity.class);
