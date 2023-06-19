@@ -2,6 +2,9 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.InstitucionEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.InstitucionRepository;
 import java.util.List;
+
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.sql2o.Connection;
@@ -37,6 +40,13 @@ public class InstitucionRepositoryImpl implements InstitucionRepository {
     @Override
     public void create(InstitucionEntity institucion) {
         try (Connection connection = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            connection.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             String query = "INSERT INTO institucion (id_institucion, nombre, direccion, telefono, id_usuario) VALUES (:idInstitucion, :nombre, :direccion, :telefono, :id_usuario)";
             connection.createQuery(query)
                     .addParameter("idInstitucion", institucion.getIdInstitucion())
@@ -51,6 +61,13 @@ public class InstitucionRepositoryImpl implements InstitucionRepository {
     @Override
     public void update(InstitucionEntity institucion) {
         try (Connection connection = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            connection.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             String query = "UPDATE institucion SET nombre = :nombre, direccion = :direccion, telefono = :telefono WHERE id_institucion = :idInstitucion";
             connection.createQuery(query)
                     .addParameter("nombre", institucion.getNombre())
@@ -64,6 +81,13 @@ public class InstitucionRepositoryImpl implements InstitucionRepository {
     @Override
     public void delete(Long id) {
         try (Connection connection = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            connection.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             String query = "DELETE FROM institucion WHERE id_institucion = :idInstitucion";
             connection.createQuery(query)
                     .addParameter("idInstitucion", id)

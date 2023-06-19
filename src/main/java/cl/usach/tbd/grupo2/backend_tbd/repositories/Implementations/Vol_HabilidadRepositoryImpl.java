@@ -3,6 +3,8 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.Vol_HabilidadEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Vol_HabilidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -20,6 +22,7 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
         List<Vol_HabilidadEntity> vol_habilidades = new ArrayList<>();
         String sqlQuery = "SELECT * FROM vol_habilidad ORDER BY id_vol_habilidad ASC";
         try (Connection con = sql2o.open()) {
+
             vol_habilidades = con.createQuery(sqlQuery).executeAndFetch(Vol_HabilidadEntity.class);
         } catch (Exception e) {
             // Conexion a sql ha fallado
@@ -30,12 +33,20 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
     @Override
     public void create(Vol_HabilidadEntity volHabilidad) {
         String sqlQuery = "INSERT INTO vol_habilidad (id_vol_habilidad, id_voluntario, id_habilidad) VALUES (:idVolHabilidad, :idVoluntario, :idHabilidad)";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idVolHabilidad", volHabilidad.getIdVolHabilidad())
                     .addParameter("idVoluntario", volHabilidad.getIdVoluntario())
                     .addParameter("idHabilidad", volHabilidad.getIdHabilidad())
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -45,6 +56,7 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
     public Vol_HabilidadEntity findById(Long id) {
         String sqlQuery = "SELECT * FROM vol_habilidad WHERE id_vol_habilidad = :id";
         try (Connection con = sql2o.open()) {
+
             return con.createQuery(sqlQuery)
                     .addParameter("id", id)
                     .executeAndFetchFirst(Vol_HabilidadEntity.class);
@@ -71,6 +83,7 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
         List<Vol_HabilidadEntity> vol_habilidades = null;
         String sqlQuery = "SELECT * FROM vol_habilidad WHERE id_habilidad = :id";
         try (Connection con = sql2o.open()) {
+
             vol_habilidades = con.createQuery(sqlQuery).addParameter("id", idHabilidad).executeAndFetch(Vol_HabilidadEntity.class);
         } catch (Exception e) {
             System.out.println("Error: " + e);
@@ -81,12 +94,20 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
     @Override
     public void update(Vol_HabilidadEntity volHabilidad) {
         String sqlQuery = "UPDATE vol_habilidad SET id_voluntario = :idVoluntario, id_habilidad = :idHabilidad WHERE id_vol_habilidad = :idVolHabilidad";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idVoluntario", volHabilidad.getIdVoluntario())
                     .addParameter("idHabilidad", volHabilidad.getIdHabilidad())
                     .addParameter("idVolHabilidad", volHabilidad.getIdVolHabilidad())
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -95,10 +116,18 @@ public class Vol_HabilidadRepositoryImpl implements Vol_HabilidadRepository{
     @Override
     public void delete(Long id) {
         String sqlQuery = "DELETE FROM vol_habilidad WHERE id_vol_habilidad = :id";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("id", id)
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }

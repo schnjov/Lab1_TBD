@@ -3,6 +3,8 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.RankingEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.RankingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -42,6 +44,13 @@ public class RankingRepositoryImpl implements RankingRepository {
     public void create(RankingEntity ranking) {
         String sqlQuery = "INSERT INTO ranking (id_ranking, id_tarea, id_voluntario, puntaje) VALUES (:idRanking, :idTarea, :idVoluntario, :puntaje)";
         try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idRanking", ranking.getId_ranking())
                     .addParameter("idTarea", ranking.getId_tarea())
@@ -56,6 +65,13 @@ public class RankingRepositoryImpl implements RankingRepository {
     public void delete(Long id) {
         String sqlQuery = "DELETE FROM ranking WHERE id_ranking = :idRanking";
         try (Connection con = sql2o.beginTransaction()){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idRanking", id)
                     .executeUpdate();
@@ -69,6 +85,13 @@ public class RankingRepositoryImpl implements RankingRepository {
     public void update(RankingEntity ranking) {
         String sqlQuery = "UPDATE ranking SET id_tarea = :idTarea, id_voluntario = :idVoluntario, puntaje = :puntaje WHERE id_ranking = :idRanking";
         try (Connection con = sql2o.beginTransaction()){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idRanking", ranking.getId_ranking())
                     .addParameter("idTarea", ranking.getId_tarea())

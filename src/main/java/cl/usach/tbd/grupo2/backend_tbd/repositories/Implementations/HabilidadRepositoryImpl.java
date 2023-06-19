@@ -4,6 +4,8 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.HabilidadEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.HabilidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -20,6 +22,7 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
         List<HabilidadEntity> habilidades = new ArrayList<>();
         String sqlQuery = "SELECT * FROM habilidad ORDER BY id_habilidad ASC";
         try (Connection con = sql2o.open()){
+
             habilidades = con.createQuery(sqlQuery).executeAndFetch(HabilidadEntity.class);
         } catch (Exception e) {
             // Conexion a sql ha fallado
@@ -33,6 +36,13 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
     public void create(HabilidadEntity habilidad) {
         String sqlQuery = "INSERT INTO habilidad (id_habilidad, habilidad) VALUES (:idHabilidad, :habilidad)";
         try (Connection con = sql2o.beginTransaction()){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idHabilidad", habilidad.getId_habilidad())
                     .addParameter("habilidad", habilidad.getHabilidad())
@@ -61,6 +71,13 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
     public void update(HabilidadEntity habilidad) {
         String sqlQuery = "UPDATE habilidad SET habilidad = :habilidad WHERE id_habilidad = :idHabilidad";
         try (Connection con = sql2o.beginTransaction()){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idHabilidad", habilidad.getId_habilidad())
                     .addParameter("habilidad", habilidad.getHabilidad())
@@ -76,6 +93,13 @@ public class HabilidadRepositoryImpl implements HabilidadRepository {
     public void delete(Long id) {
         String sqlQuery = "DELETE FROM habilidad WHERE id_habilidad = :idHabilidad";
         try (Connection con = sql2o.beginTransaction()){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idHabilidad", id)
                     .executeUpdate();

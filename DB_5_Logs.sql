@@ -1,3 +1,9 @@
+CREATE OR REPLACE FUNCTION set_tbd_usuario(username text) RETURNS void AS $$
+BEGIN
+    EXECUTE format('SET LOCAL tbd.usuario = %L', username);
+END
+$$ LANGUAGE plpgsql;
+
 CREATE TABLE logs (
     id_log SERIAL PRIMARY KEY,
     nombre_tabla VARCHAR(255),

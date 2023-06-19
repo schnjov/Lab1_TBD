@@ -3,6 +3,8 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.Eme_HabilidadEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Eme_HabilidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -32,6 +34,12 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
     public void create(Eme_HabilidadEntity eme_habilidad) {
         String sqlQuery = "INSERT INTO eme_habilidad (id_eme_habilidad, id_emergencia, id_habilidad) VALUES (:idEmeHabilidad, :idEmergencia, :idHabilidad)";
         try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
             con.createQuery(sqlQuery)
                     .addParameter("idEmeHabilidad", eme_habilidad.getId_eme_habilidad())
                     .addParameter("idEmergencia", eme_habilidad.getId_emergencia())
@@ -83,6 +91,13 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
     public void update(Eme_HabilidadEntity eme_habilidad) {
         String sqlQuery = "UPDATE eme_habilidad SET id_emergencia = :idEmergencia, id_habilidad = :idHabilidad WHERE id_eme_habilidad = :idEmeHabilidad";
         try (Connection con = sql2o.beginTransaction()){
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idEmergencia", eme_habilidad.getId_emergencia())
                     .addParameter("idHabilidad", eme_habilidad.getId_habilidad())
@@ -96,6 +111,13 @@ public class Eme_HabilidadRepositoryImpl implements Eme_HabilidadRepository {
     public void delete(Long id) {
         String sqlQuery = "DELETE FROM eme_habilidad WHERE id_eme_habilidad = :id";
         try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery).addParameter("id", id).executeUpdate();
             con.commit();
         }

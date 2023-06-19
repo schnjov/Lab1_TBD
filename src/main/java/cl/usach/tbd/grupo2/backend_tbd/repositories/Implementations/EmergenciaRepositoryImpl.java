@@ -5,6 +5,8 @@ import cl.usach.tbd.grupo2.backend_tbd.repositories.EmergenciaRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Sql2o;
 
@@ -24,19 +26,25 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
         String sqlQuery = "SELECT * FROM emergencia ORDER BY id_emergencia ASC";
         try (Connection con = sql2o.open()) {
             emergencias = con.createQuery(sqlQuery).executeAndFetch(EmergenciaEntity.class);
-            logger.info("Cantidad de emergencias: " + emergencias.size());
         } catch (Exception e) {
             logger.error(e.getMessage());
             // Conexion a sql ha fallado
-
         }
         return emergencias;
     }
 
     @Override
     public EmergenciaEntity create(EmergenciaEntity emergencia) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        String sqlSet = "SELECT set_tbd_usuario(:username)";
         String sqlQuery = "INSERT INTO emergencia (id_emergencia, asunto, fecha, descripcion, direccion, activa, id_institucion, region, ubicacion) VALUES (:id_emergencia, :asunto, :fecha, :descripcion, :direccion, :activa, :id_institucion, :region, :ubicacion)";
         try (Connection con = sql2o.beginTransaction()) {
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("asunto", emergencia.getAsunto())
                     .addParameter("fecha", emergencia.getFecha())
@@ -79,6 +87,12 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
     public EmergenciaEntity update(EmergenciaEntity emergencia) {
         String sqlQuery = "UPDATE emergencia SET asunto = :asunto, descripcion = :descripcion, direccion = :direccion, fecha =:fecha, activa = :activa, id_institucion = :idInstitucion, region = :region, ubicacion = :ubicacion WHERE id_emergencia = :idEmergencia";
         try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
             con.createQuery(sqlQuery)
                     .addParameter("idEmergencia", emergencia.getId_emergencia())
                     .addParameter("asunto", emergencia.getAsunto())
@@ -100,8 +114,16 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
 
     @Override
     public void delete(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        String sqlSet = "SELECT set_tbd_usuario(:username)";
         String sqlQuery = "DELETE FROM emergencia WHERE id_emergencia = :idEmergencia";
         try (Connection con = sql2o.beginTransaction()){
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idEmergencia", id)
                     .executeUpdate();
@@ -113,8 +135,16 @@ public class EmergenciaRepositoryImpl implements EmergenciaRepository {
 
     @Override
     public void cambiarEstado(Long id) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+
+        String sqlSet = "SELECT set_tbd_usuario(:username)";
         String sqlQuery = "UPDATE emergencia SET activa = NOT activa WHERE id_emergencia = :idEmergencia";
         try (Connection con = sql2o.beginTransaction()){
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idEmergencia", id)
                     .executeUpdate();

@@ -3,6 +3,8 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.Tarea_HabilidadEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.Tarea_HabilidadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -29,12 +31,20 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
     @Override
     public void create(Tarea_HabilidadEntity tarea_habilidad) {
         String sqlQuery = "INSERT INTO tarea_habilidad(id_tarea_habilidad, id_tarea, id_habilidad) VALUES (:idTareaHabilidad, :idTarea, :idHabilidad)";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idTareaHabilidad", tarea_habilidad.getId_tarea_habilidad())
                     .addParameter("idTarea", tarea_habilidad.getId_tarea())
                     .addParameter("idHabilidad", tarea_habilidad.getId_habilidad())
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -80,12 +90,20 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
     @Override
     public void update(Tarea_HabilidadEntity tarea_habilidad) {
         String sqlQuery = "UPDATE tarea_habilidad SET id_tarea = :idTarea, id_habilidad = :idHabilidad WHERE id_tarea_habilidad = :idTareaHabilidad";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idTarea", tarea_habilidad.getId_tarea())
                     .addParameter("idHabilidad", tarea_habilidad.getId_habilidad())
                     .addParameter("idTareaHabilidad", tarea_habilidad.getId_tarea_habilidad())
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -94,8 +112,16 @@ public class Tarea_HabilidadRepositoryImpl implements Tarea_HabilidadRepository 
     @Override
     public void delete(Long id) {
         String sqlQuery = "DELETE FROM tarea_habilidad WHERE id_tarea_habilidad = :id";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery).addParameter("id", id).executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }

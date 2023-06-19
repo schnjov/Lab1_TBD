@@ -3,6 +3,8 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 import cl.usach.tbd.grupo2.backend_tbd.entities.UsuarioEntity;
 import cl.usach.tbd.grupo2.backend_tbd.entities.VoluntarioEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.UsuarioRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -45,19 +47,27 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
 
     @Override
     public void create(UsuarioEntity usuario) {
-        try (Connection connection = sql2o.open()) {
+        try (Connection connection = sql2o.beginTransaction()) {
             String query = "INSERT INTO usuario (email, password, rol) VALUES (:email, :password, :rol)";
             connection.createQuery(query, true)
                     .addParameter("email", usuario.getEmail())
                     .addParameter("password", usuario.getPassword())
                     .addParameter("rol", usuario.getRol())
                     .executeUpdate();
+            connection.commit();
         }
     }
 
     @Override
     public void update(UsuarioEntity usuario) {
-        try (Connection connection = sql2o.open()) {
+        try (Connection connection = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            connection.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             String query = "UPDATE usuario SET email = :email, password = :password, rol = :rol WHERE id = :id";
             connection.createQuery(query)
                     .addParameter("email", usuario.getEmail())
@@ -65,14 +75,23 @@ public class UsuarioRepositoryImpl implements UsuarioRepository {
                     .addParameter("rol", usuario.getRol())
                     .addParameter("id", usuario.getId())
                     .executeUpdate();
+            connection.commit();
         }
     }
 
     @Override
     public void delete(Long id) {
-        try (Connection connection = sql2o.open()) {
+        try (Connection connection = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            connection.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             String query = "DELETE FROM usuario WHERE id = :id";
             connection.createQuery(query).addParameter("id", id).executeUpdate();
+            connection.commit();
         }
     }
 }

@@ -2,6 +2,8 @@ package cl.usach.tbd.grupo2.backend_tbd.repositories.Implementations;
 
 import cl.usach.tbd.grupo2.backend_tbd.entities.VoluntarioEntity;
 import cl.usach.tbd.grupo2.backend_tbd.repositories.VoluntarioRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -19,6 +21,7 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public List<VoluntarioEntity> findAll() {
         try (Connection connection = sql2o.open()) {
+
             String query = "SELECT * FROM voluntario";
             return connection.createQuery(query).executeAndFetch(VoluntarioEntity.class);
         }
@@ -27,6 +30,7 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public VoluntarioEntity findById(Long id) {
         try (Connection connection = sql2o.open()) {
+
             String query = "SELECT * FROM voluntario WHERE id = :id";
             return connection.createQuery(query)
                     .addParameter("id", id)
@@ -56,6 +60,13 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public void create(VoluntarioEntity voluntario) {
         try (Connection connection = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            connection.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             String query = "INSERT INTO voluntario (nombre, apellido, telefono, direccion, ubicacion) VALUES (:nombre, :apellido, :telefono, :direccion, :ubicacion)";
             connection.createQuery(query)
                     .addParameter("nombre", voluntario.getNombre())
@@ -71,6 +82,13 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public void update(VoluntarioEntity voluntario) {
         try (Connection connection = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            connection.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             String query = "UPDATE voluntario SET nombre = :nombre, apellido = :apellido, telefono = :telefono, direccion = :direccion, ubicacion = :ubicacion WHERE id_voluntario = :id";
             connection.createQuery(query)
                     .addParameter("nombre", voluntario.getNombre())
@@ -87,6 +105,13 @@ public class VoluntarioRepositoryImpl implements VoluntarioRepository {
     @Override
     public void delete(Long id) {
         try (Connection connection = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            connection.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             String query = "DELETE FROM voluntario WHERE id = :id";
             connection.createQuery(query)
                     .addParameter("id", id)

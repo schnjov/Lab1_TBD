@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Repository;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -19,13 +21,21 @@ public class TareaRepositoryImpl implements TareaRepository {
     @Override
     public void create(TareaEntity tarea) {
         String sqlQuery = "INSERT INTO tarea (id_tarea, asunto_tarea, id_emergencia, estado_tarea) VALUES (:idTarea, :asuntoTarea, :idEmergencia, :estadoTarea)";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("idTarea", tarea.getId_tarea())
                     .addParameter("asuntoTarea", tarea.getAsunto_tarea())
                     .addParameter("idEmergencia", tarea.getId_emergencia())
                     .addParameter("estadoTarea", tarea.getEstado_tarea())
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -83,13 +93,21 @@ public class TareaRepositoryImpl implements TareaRepository {
     @Override
     public void update(TareaEntity tarea) {
         String sqlQuery = "UPDATE tarea SET asunto_tarea = :asuntoTarea, id_emergencia = :idEmergencia, estado_tarea = :estadoTarea WHERE id_tarea = :idTarea";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("asuntoTarea", tarea.getAsunto_tarea())
                     .addParameter("idEmergencia", tarea.getId_emergencia())
                     .addParameter("estadoTarea", tarea.getEstado_tarea())
                     .addParameter("idTarea", tarea.getId_tarea())
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
@@ -98,10 +116,18 @@ public class TareaRepositoryImpl implements TareaRepository {
     @Override
     public void delete(Long id) {
         String sqlQuery = "DELETE FROM tarea WHERE id_tarea = :id";
-        try (Connection con = sql2o.open()) {
+        try (Connection con = sql2o.beginTransaction()) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            String sqlSet = "SELECT set_tbd_usuario(:username)";
+            con.createQuery(sqlSet)
+                    .addParameter("username", username)
+                    .executeScalar();
+
             con.createQuery(sqlQuery)
                     .addParameter("id", id)
                     .executeUpdate();
+            con.commit();
         } catch (Exception e) {
             System.out.println("Error: " + e);
         }
