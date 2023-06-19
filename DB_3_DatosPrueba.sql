@@ -10,17 +10,17 @@ TRUNCATE TABLE tarea_habilidad CASCADE;
 TRUNCATE TABLE usuario CASCADE;
 TRUNCATE TABLE vol_habilidad CASCADE;
 TRUNCATE TABLE voluntario CASCADE;
-ALTER SEQUENCE eme_habilidad_id_seq RESTART WITH 1;
-ALTER SEQUENCE emergencia_id_seq RESTART WITH 1;
-ALTER SEQUENCE habilidad_id_seq RESTART WITH 1;
-ALTER SEQUENCE institucion_id_seq RESTART WITH 1;
-ALTER SEQUENCE logs_id_seq RESTART WITH 1;
-ALTER SEQUENCE ranking_id_seq RESTART WITH 1;
-ALTER SEQUENCE tarea_id_seq RESTART WITH 1;
-ALTER SEQUENCE tarea_habilidad_id_seq RESTART WITH 1;
+ALTER SEQUENCE eme_habilidad_id_eme_habilidad_seq RESTART WITH 1;
+ALTER SEQUENCE emergencia_id_emergencia_seq RESTART WITH 1;
+ALTER SEQUENCE habilidad_id_habilidad_seq RESTART WITH 1;
+ALTER SEQUENCE institucion_id_institucion_seq RESTART WITH 1;
+ALTER SEQUENCE logs_id_log_seq RESTART WITH 1;
+ALTER SEQUENCE ranking_id_ranking_seq RESTART WITH 1;
+ALTER SEQUENCE tarea_id_tarea_seq RESTART WITH 1;
+ALTER SEQUENCE tarea_habilidad_id_tarea_habilidad_seq RESTART WITH 1;
 ALTER SEQUENCE usuario_id_seq RESTART WITH 1;
-ALTER SEQUENCE vol_habilidad_id_seq RESTART WITH 1;
-ALTER SEQUENCE voluntario_id_seq RESTART WITH 1;
+ALTER SEQUENCE vol_habilidad_id_vol_habilidad_seq RESTART WITH 1;
+ALTER SEQUENCE voluntario_id_voluntario_seq RESTART WITH 1;
 
 
 -- INSERT DATA INTO usuario
@@ -101,26 +101,26 @@ INSERT INTO voluntario(nombre, apellido, telefono, direccion, id_usuario, ubicac
 
 -- INSERT DATA INTO emergencia
 INSERT INTO emergencia(asunto, descripcion, direccion, fecha, activa, id_institucion, region, ubicacion) VALUES
-('Asunto 1', 'Descripción 1', 'Dirección 41', '2023-01-02', TRUE, 1, 1, ST_SetSRID(ST_MakePoint(-33.04580, -71.62725), 4326)),
-('Asunto 2', 'Descripción 2', 'Dirección 42', '2023-01-03', FALSE, 2, 2, ST_SetSRID(ST_MakePoint(-33.45694, -70.64827), 4326)),
-('Asunto 3', 'Descripción 3', 'Dirección 43', '2023-01-04', TRUE, 3, 3, ST_SetSRID(ST_MakePoint(-23.65093, -70.39148), 4326)),
-('Asunto 4', 'Descripción 4', 'Dirección 44', '2023-01-05', FALSE, 4, 4, ST_SetSRID(ST_MakePoint(-33.03932, -71.61368), 4326)),
-('Asunto 5', 'Descripción 5', 'Dirección 45', '2023-01-06', TRUE, 5, 5, ST_SetSRID(ST_MakePoint(-33.48583, -70.65614), 4326)),
-('Asunto 6', 'Descripción 6', 'Dirección 46', '2023-01-07', FALSE, 6, 6, ST_SetSRID(ST_MakePoint(-23.64489, -70.40942), 4326)),
-('Asunto 7', 'Descripción 7', 'Dirección 47', '2023-01-08', TRUE, 7, 7, ST_SetSRID(ST_MakePoint(-33.04738, -71.60751), 4326)),
-('Asunto 8', 'Descripción 8', 'Dirección 48', '2023-01-09', FALSE, 8, 8, ST_SetSRID(ST_MakePoint(-33.42202, -70.57730), 4326)),
-('Asunto 9', 'Descripción 9', 'Dirección 49', '2023-01-10', TRUE, 9, 9, ST_SetSRID(ST_MakePoint(-23.65836, -70.36774), 4326)),
-('Asunto 10', 'Descripción 10', 'Dirección 50', '2023-01-11', FALSE, 10, 10, ST_SetSRID(ST_MakePoint(-33.03659, -71.61669), 4326)),
-('Asunto 11', 'Descripción 11', 'Dirección 51', '2023-01-12', TRUE, 11, 11, ST_SetSRID(ST_MakePoint(-33.43722, -70.65056), 4326)),
-('Asunto 12', 'Descripción 12', 'Dirección 52', '2023-01-13', FALSE, 12, 12, ST_SetSRID(ST_MakePoint(-33.39289, -70.78578), 4326)),
-('Asunto 13', 'Descripción 13', 'Dirección 53', '2023-01-14', TRUE, 13, 13, ST_SetSRID(ST_MakePoint(-33.52028, -70.66667), 4326)),
-('Asunto 14', 'Descripción 14', 'Dirección 54', '2023-01-15', FALSE, 14, 14, ST_SetSRID(ST_MakePoint(-33.45598, -70.59552), 4326)),
-('Asunto 15', 'Descripción 15', 'Dirección 55', '2023-01-16', TRUE, 15, 15, ST_SetSRID(ST_MakePoint(-33.60000, -70.71667), 4326)),
-('Asunto 16', 'Descripción 16', 'Dirección 56', '2023-01-17', FALSE, 16, 16, ST_SetSRID(ST_MakePoint(-33.41667, -70.53333), 4326)),
-('Asunto 17', 'Descripción 17', 'Dirección 57', '2023-01-18', TRUE, 17, 17, ST_SetSRID(ST_MakePoint(-33.59229, -70.69960), 4326)), 
-('Asunto 18', 'Descripción 18', 'Dirección 58', '2023-01-19', FALSE, 18, 18, ST_SetSRID(ST_MakePoint(-33.39842, -70.60358), 4326)), 
-('Asunto 19', 'Descripción 19', 'Dirección 59', '2023-01-20', TRUE, 19, 19, ST_SetSRID(ST_MakePoint(-33.38796, -70.51283), 4326)),
-('Asunto 20', 'Descripción 20', 'Dirección 60', '2023-01-21', FALSE, 20, 20, ST_SetSRID(ST_MakePoint(-33.45694, -70.64827), 4326));
+('Asunto 1', 'Descripción 1', 'Dirección 41', '2023-01-02', TRUE, 1, 5, ST_SetSRID(ST_MakePoint(-71.62725, -33.04580), 4326)), -- Valparaíso
+('Asunto 2', 'Descripción 2', 'Dirección 42', '2023-01-03', FALSE, 2, 13, ST_SetSRID(ST_MakePoint(-70.64827, -33.45694), 4326)), -- Santiago, Región Metropolitana
+('Asunto 3', 'Descripción 3', 'Dirección 43', '2023-01-04', TRUE, 3, 2, ST_SetSRID(ST_MakePoint(-70.39148, -23.65093), 4326)), -- Antofagasta
+('Asunto 4', 'Descripción 4', 'Dirección 44', '2023-01-05', FALSE, 4, 5, ST_SetSRID(ST_MakePoint(-71.61368, -33.03932), 4326)), -- Viña del Mar, Valparaíso
+('Asunto 5', 'Descripción 5', 'Dirección 45', '2023-01-06', TRUE, 5, 13, ST_SetSRID(ST_MakePoint(-70.65614, -33.48583), 4326)), -- Puente Alto, Región Metropolitana
+('Asunto 6', 'Descripción 6', 'Dirección 46', '2023-01-07', FALSE, 6, 2, ST_SetSRID(ST_MakePoint(-70.40942, -23.64489), 4326)), -- Calama, Antofagasta
+('Asunto 7', 'Descripción 7', 'Dirección 47', '2023-01-08', TRUE, 7, 5, ST_SetSRID(ST_MakePoint(-71.60751, -33.04738), 4326)), -- Valparaíso
+('Asunto 8', 'Descripción 8', 'Dirección 48', '2023-01-09', FALSE, 8, 13, ST_SetSRID(ST_MakePoint(-70.57730, -33.42202), 4326)), -- Las Condes, Región Metropolitana
+('Asunto 9', 'Descripción 9', 'Dirección 49', '2023-01-10', TRUE, 9, 2, ST_SetSRID(ST_MakePoint(-70.36774, -23.65836), 4326)), -- Mejillones, Antofagasta
+('Asunto 10', 'Descripción 10', 'Dirección 50', '2023-01-11', FALSE, 10, 5, ST_SetSRID(ST_MakePoint(-71.61669, -33.03659), 4326)), -- Valparaíso
+('Asunto 11', 'Descripción 11', 'Dirección 51', '2023-01-12', TRUE, 11, 13, ST_SetSRID(ST_MakePoint(-70.65056, -33.43722), 4326)), -- Santiago Centro
+('Asunto 12', 'Descripción 12', 'Dirección 52', '2023-01-13', FALSE, 12, 13, ST_SetSRID(ST_MakePoint(-70.78578, -33.39289), 4326)), -- Maipú
+('Asunto 13', 'Descripción 13', 'Dirección 53', '2023-01-14', TRUE, 13, 13, ST_SetSRID(ST_MakePoint(-70.66667, -33.52028), 4326)), -- La Florida
+('Asunto 14', 'Descripción 14', 'Dirección 54', '2023-01-15', FALSE, 14, 13, ST_SetSRID(ST_MakePoint(-70.59552, -33.45598), 4326)), -- Ñuñoa
+('Asunto 15', 'Descripción 15', 'Dirección 55', '2023-01-16', TRUE, 15, 13, ST_SetSRID(ST_MakePoint(-70.71667, -33.60000), 4326)), -- Puente Alto
+('Asunto 16', 'Descripción 16', 'Dirección 56', '2023-01-17', FALSE, 16, 13, ST_SetSRID(ST_MakePoint(-70.53333, -33.41667), 4326)), -- Providencia
+('Asunto 17', 'Descripción 17', 'Dirección 57', '2023-01-18', TRUE, 17, 13, ST_SetSRID(ST_MakePoint(-70.69960, -33.59229), 4326)), -- San Bernardo
+('Asunto 18', 'Descripción 18', 'Dirección 58', '2023-01-19', FALSE, 18, 13, ST_SetSRID(ST_MakePoint(-70.60358, -33.39842), 4326)), -- Las Condes
+('Asunto 19', 'Descripción 19', 'Dirección 59', '2023-01-20', TRUE, 19, 13, ST_SetSRID(ST_MakePoint(-70.51283, -33.38796), 4326)), -- Vitacura
+('Asunto 20', 'Descripción 20', 'Dirección 60', '2023-01-21', FALSE, 20, 13, ST_SetSRID(ST_MakePoint(-70.64827, -33.45694), 4326)); -- Santiago Centro
 
 -- INSERT DATA INTO vol_habilidad
 INSERT INTO vol_habilidad(id_voluntario, id_habilidad) VALUES
